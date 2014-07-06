@@ -1,12 +1,13 @@
 package com.github.hammertonmarc.sensornode.sensormanagement;
 
 import com.github.hammertonmarc.sensornode.sensordatamanagement.SensorData;
-
 import java.util.concurrent.BlockingQueue;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Created by marc on 17.05.14.
  */
+@XmlRootElement
 public abstract class Sensor implements Runnable {
 
     protected int id, captureInterval;

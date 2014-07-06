@@ -1,10 +1,12 @@
 package com.github.hammertonmarc.sensornode.sensordatamanagement;
 
 import java.util.Calendar;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Created by marc on 14.06.14.
  */
+@XmlRootElement
 public class SensorData {
     protected int sensorId;
     protected String sensorName;
