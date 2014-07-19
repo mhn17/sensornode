@@ -3,12 +3,12 @@ package com.github.hammertonmarc.sensornode.sensormanagement.sensors;
 import au.edu.jcu.v4l4j.*;
 import au.edu.jcu.v4l4j.exceptions.StateException;
 import au.edu.jcu.v4l4j.exceptions.V4L4JException;
+import com.github.hammertonmarc.sensornode.exceptions.SensorManagementException;
 import com.github.hammertonmarc.sensornode.sensormanagement.Sensor;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 
 /**
@@ -21,7 +21,7 @@ public class WebCam extends Sensor implements CaptureCallback {
     private VideoDevice videoDevice;
     private FrameGrabber frameGrabber;
 
-    public WebCam(int id, String name, int type) {
+    public WebCam(int id, String name, int type) throws SensorManagementException {
         super(id, name);
         this.type = type;
 
@@ -34,7 +34,8 @@ public class WebCam extends Sensor implements CaptureCallback {
 
             // cleanup and exit
             cleanupCapture();
-            return;
+
+            throw new SensorManagementException("Sensor not connected");
         }
     }
 
@@ -79,7 +80,7 @@ public class WebCam extends Sensor implements CaptureCallback {
      * Initialises the FrameGrabber object
      * @throws V4L4JException if any parameter if invalid
      */
-    private void initFrameGrabber() throws V4L4JException{
+    private void initFrameGrabber() throws V4L4JException {
         videoDevice = new VideoDevice(device);
         frameGrabber = videoDevice.getJPEGFrameGrabber(width, height, channel, std, 80);
         frameGrabber.setCaptureCallback(this);
@@ -92,16 +93,20 @@ public class WebCam extends Sensor implements CaptureCallback {
      * this method stops the capture and releases the frame grabber and video device
      */
     private void cleanupCapture() {
-        try {
-            frameGrabber.stopCapture();
-        } catch (StateException ex) {
-            // the frame grabber may be already stopped, so we just ignore
-            // any exception and simply continue.
+        if (frameGrabber != null) {
+            try {
+                frameGrabber.stopCapture();
+            } catch (StateException ex) {
+                // the frame grabber may be already stopped, so we just ignore
+                // any exception and simply continue.
+            }
         }
 
-        // release the frame grabber and video device
-        videoDevice.releaseFrameGrabber();
-        videoDevice.release();
+        if (videoDevice != null) {
+            // release the frame grabber and video device
+            videoDevice.releaseFrameGrabber();
+            videoDevice.release();
+        }
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.github.hammertonmarc.sensornode.sensormanagement;
 
+import au.edu.jcu.v4l4j.exceptions.V4L4JException;
+import com.github.hammertonmarc.sensornode.exceptions.SensorManagementException;
 import com.github.hammertonmarc.sensornode.sensordatamanagement.SensorDataQueue;
 import com.github.hammertonmarc.sensornode.sensormanagement.sensors.WebCam;
 
@@ -41,9 +43,14 @@ public class SensorManager implements Runnable {
     }
 
     protected void createSensors(SensorDataQueue sensorDataQueue) {
-        Sensor sensor = new WebCam(1, "webcam1", Sensor.DATA_TYPE_JPEG);
-        sensor.setSensorDataQueue(sensorDataQueue);
-        this.sensorList.add(sensor);
+        try {
+            Sensor sensor = new WebCam(1, "webcam1", Sensor.DATA_TYPE_JPEG);
+            sensor.setSensorDataQueue(sensorDataQueue);
+            this.sensorList.add(sensor);
+        }
+        catch (SensorManagementException e) {
+            System.out.println("Could not initialise sensor: webcam1");
+        }
 
     }
 }
