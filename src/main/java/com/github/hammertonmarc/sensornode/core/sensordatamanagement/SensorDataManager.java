@@ -13,7 +13,7 @@ public class SensorDataManager implements Runnable {
 
     public SensorDataManager(SensorDataQueue sensorDataQueue) {
         this.sensorDataQueue = sensorDataQueue;
-        this.repository = new MongoDbSensorDataRepository();
+        this.repository = SensorDataRepositoryFactory.getRepository();
     }
 
     @Override
