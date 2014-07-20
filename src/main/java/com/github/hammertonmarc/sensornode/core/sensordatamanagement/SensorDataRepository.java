@@ -1,4 +1,4 @@
-package com.github.hammertonmarc.sensornode.sensordatamanagement;
+package com.github.hammertonmarc.sensornode.core.sensordatamanagement;
 
 import java.util.ArrayList;
 

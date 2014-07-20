@@ -1,12 +1,6 @@
-package com.github.hammertonmarc.sensornode.sensordatamanagement;
+package com.github.hammertonmarc.sensornode.core.sensordatamanagement;
 
-import com.github.hammertonmarc.sensornode.sensordatamanagement.mongodb.MongoDbSensorDataRepository;
-
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.TimeUnit;
+import com.github.hammertonmarc.sensornode.core.sensordatamanagement.mongodb.MongoDbSensorDataRepository;
 
 /**
  * Created by marc on 14.06.14.

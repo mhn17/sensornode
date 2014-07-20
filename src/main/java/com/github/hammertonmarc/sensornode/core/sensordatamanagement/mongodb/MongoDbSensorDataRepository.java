@@ -1,7 +1,7 @@
-package com.github.hammertonmarc.sensornode.sensordatamanagement.mongodb;
+package com.github.hammertonmarc.sensornode.core.sensordatamanagement.mongodb;
 
-import com.github.hammertonmarc.sensornode.sensordatamanagement.SensorData;
-import com.github.hammertonmarc.sensornode.sensordatamanagement.SensorDataRepository;
+import com.github.hammertonmarc.sensornode.core.sensordatamanagement.SensorData;
+import com.github.hammertonmarc.sensornode.core.sensordatamanagement.SensorDataRepository;
 import com.mongodb.*;
 
 import java.net.UnknownHostException;

@@ -1,8 +1,8 @@
 package com.github.hammertonmarc.sensornode;
 
-import com.github.hammertonmarc.sensornode.sensordatamanagement.SensorDataManager;
-import com.github.hammertonmarc.sensornode.sensordatamanagement.SensorDataQueue;
-import com.github.hammertonmarc.sensornode.sensormanagement.SensorManager;
+import com.github.hammertonmarc.sensornode.core.sensordatamanagement.SensorDataManager;
+import com.github.hammertonmarc.sensornode.core.sensordatamanagement.SensorDataQueue;
+import com.github.hammertonmarc.sensornode.core.sensormanagement.SensorManager;
 import com.github.hammertonmarc.sensornode.server.RestServer;
 import com.github.hammertonmarc.sensornode.server.Server;
 

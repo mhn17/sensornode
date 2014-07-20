@@ -1,4 +1,4 @@
-package com.github.hammertonmarc.sensornode.server.resources;
+package com.github.hammertonmarc.sensornode.server.rest.resources;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;

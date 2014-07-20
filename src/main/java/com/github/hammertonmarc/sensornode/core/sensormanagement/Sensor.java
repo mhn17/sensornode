@@ -1,6 +1,6 @@
-package com.github.hammertonmarc.sensornode.sensormanagement;
+package com.github.hammertonmarc.sensornode.core.sensormanagement;
 
-import com.github.hammertonmarc.sensornode.sensordatamanagement.SensorData;
+import com.github.hammertonmarc.sensornode.core.sensordatamanagement.SensorData;
 import java.util.concurrent.BlockingQueue;
 import javax.xml.bind.annotation.XmlRootElement;
 

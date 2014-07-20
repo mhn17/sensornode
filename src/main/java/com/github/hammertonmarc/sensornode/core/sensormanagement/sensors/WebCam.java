@@ -1,10 +1,10 @@
-package com.github.hammertonmarc.sensornode.sensormanagement.sensors;
+package com.github.hammertonmarc.sensornode.core.sensormanagement.sensors;
 
 import au.edu.jcu.v4l4j.*;
 import au.edu.jcu.v4l4j.exceptions.StateException;
 import au.edu.jcu.v4l4j.exceptions.V4L4JException;
-import com.github.hammertonmarc.sensornode.exceptions.SensorManagementException;
-import com.github.hammertonmarc.sensornode.sensormanagement.Sensor;
+import com.github.hammertonmarc.sensornode.core.exceptions.SensorManagementException;
+import com.github.hammertonmarc.sensornode.core.sensormanagement.Sensor;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

@@ -1,4 +1,4 @@
-package com.github.hammertonmarc.sensornode.exceptions;
+package com.github.hammertonmarc.sensornode.core.exceptions;
 
 /**
  * Created by marc on 19.07.14.

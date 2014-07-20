@@ -1,9 +1,8 @@
-package com.github.hammertonmarc.sensornode.sensormanagement;
+package com.github.hammertonmarc.sensornode.core.sensormanagement;
 
-import au.edu.jcu.v4l4j.exceptions.V4L4JException;
-import com.github.hammertonmarc.sensornode.exceptions.SensorManagementException;
-import com.github.hammertonmarc.sensornode.sensordatamanagement.SensorDataQueue;
-import com.github.hammertonmarc.sensornode.sensormanagement.sensors.WebCam;
+import com.github.hammertonmarc.sensornode.core.exceptions.SensorManagementException;
+import com.github.hammertonmarc.sensornode.core.sensordatamanagement.SensorDataQueue;
+import com.github.hammertonmarc.sensornode.core.sensormanagement.sensors.WebCam;
 
 /**
  * Created by marc on 17.05.14.
