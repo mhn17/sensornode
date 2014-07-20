@@ -17,7 +17,8 @@ public class SensorNode {
 
         // create manager
         SensorDataManager sensorDataManager = new SensorDataManager(sensorDataQueue);
-        SensorManager sensorManager = new SensorManager(sensorDataQueue);
+        SensorManager sensorManager = SensorManager.getInstance();
+        sensorManager.createSensors(sensorDataQueue);
 
         // create threads for manager
         new Thread(sensorDataManager).start();

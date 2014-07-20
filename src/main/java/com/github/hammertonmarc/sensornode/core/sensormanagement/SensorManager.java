@@ -8,16 +8,17 @@ import com.github.hammertonmarc.sensornode.core.sensormanagement.sensors.WebCam;
  * Created by marc on 17.05.14.
  */
 public class SensorManager implements Runnable {
+
+    private static SensorManager instance = new SensorManager();
+
     protected SensorList sensorList;
 
-    public SensorManager() {
+    private SensorManager() {
         this.sensorList = new SensorList();
-        this.createSensors(null);
     }
 
-    public SensorManager(SensorDataQueue sensorDataQueue) {
-        this.sensorList = new SensorList();
-        this.createSensors(sensorDataQueue);
+    public static SensorManager getInstance() {
+        return instance;
     }
 
     @Override
@@ -41,7 +42,7 @@ public class SensorManager implements Runnable {
         }
     }
 
-    protected void createSensors(SensorDataQueue sensorDataQueue) {
+    public void createSensors(SensorDataQueue sensorDataQueue) {
         try {
             Sensor sensor = new WebCam(1, "webcam1", Sensor.DATA_TYPE_JPEG);
             sensor.setSensorDataQueue(sensorDataQueue);
