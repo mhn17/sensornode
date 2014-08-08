@@ -1,9 +1,5 @@
 package com.github.hammertonmarc.sensornode.core.sensormanagement;
 
-import com.github.hammertonmarc.sensornode.core.exceptions.SensorManagementException;
-import com.github.hammertonmarc.sensornode.core.sensordatamanagement.SensorDataQueue;
-import com.github.hammertonmarc.sensornode.core.sensormanagement.sensors.WebCam;
-
 /**
  * Created by marc on 17.05.14.
  */
@@ -14,7 +10,8 @@ public class SensorManager implements Runnable {
     protected SensorList sensorList;
 
     private SensorManager() {
-        this.sensorList = new SensorList();
+        SensorRepository repository = SensorRepositoryFactory.getRepository();
+        this.sensorList = repository.getActiveSensors();
     }
 
     public static SensorManager getInstance() {
@@ -40,17 +37,5 @@ public class SensorManager implements Runnable {
         for (Sensor sensor : this.sensorList) {
             sensor.close();
         }
-    }
-
-    public void createSensors(SensorDataQueue sensorDataQueue) {
-        try {
-            Sensor sensor = new WebCam(1, "webcam1", Sensor.DATA_TYPE_JPEG);
-            sensor.setSensorDataQueue(sensorDataQueue);
-            this.sensorList.add(sensor);
-        }
-        catch (SensorManagementException e) {
-            System.out.println("Could not initialise sensor: webcam1");
-        }
-
     }
 }

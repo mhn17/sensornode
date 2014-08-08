@@ -11,8 +11,8 @@ public class SensorDataManager implements Runnable {
     protected boolean stop = false;
     protected SensorDataRepository repository;
 
-    public SensorDataManager(SensorDataQueue sensorDataQueue) {
-        this.sensorDataQueue = sensorDataQueue;
+    public SensorDataManager() {
+        this.sensorDataQueue = SensorDataQueue.getInstance();
         this.repository = SensorDataRepositoryFactory.getRepository();
     }
 

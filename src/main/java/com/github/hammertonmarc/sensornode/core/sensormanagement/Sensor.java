@@ -1,6 +1,8 @@
 package com.github.hammertonmarc.sensornode.core.sensormanagement;
 
 import com.github.hammertonmarc.sensornode.core.sensordatamanagement.SensorData;
+import com.github.hammertonmarc.sensornode.core.sensordatamanagement.SensorDataQueue;
+
 import java.util.concurrent.BlockingQueue;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -12,10 +14,8 @@ public abstract class Sensor implements Runnable {
 
     protected int id, captureInterval;
     protected String name;
-    protected int type;
     protected BlockingQueue<SensorData> sensorDataQueue;
-    protected byte[] data;
-    public static int DATA_TYPE_JPEG = 0;
+    protected byte[] data = null;
 
     public Sensor(int id, String name) {
         this(id, name, 1);
@@ -25,6 +25,7 @@ public abstract class Sensor implements Runnable {
         this.id = id;
         this.name = name;
         this.captureInterval = captureInterval;
+        this.sensorDataQueue = SensorDataQueue.getInstance();
     }
 
     public abstract void close();
@@ -37,10 +38,6 @@ public abstract class Sensor implements Runnable {
 
     public String getName() {
         return this.name;
-    }
-
-    public int getType() {
-        return this.type;
     }
 
     public byte[] getData() {
@@ -58,10 +55,6 @@ public abstract class Sensor implements Runnable {
                 e.printStackTrace();
             }
         }
-    }
-
-    public void setSensorDataQueue(BlockingQueue<SensorData> sensorDataQueue) {
-        this.sensorDataQueue = sensorDataQueue;
     }
 
     @Override

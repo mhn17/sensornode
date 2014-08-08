@@ -15,23 +15,26 @@ import java.io.IOException;
  * Created by marc on 17.05.14.
  */
 public class WebCam extends Sensor implements CaptureCallback {
-    private static int      width = 640, height = 480, std = V4L4JConstants.STANDARD_WEBCAM, channel = 0;
-    private static String   device = "/dev/video0";
+    private int width;
+    private int height;
+    private int channel;
+    private String device = "/dev/video0";
 
     private VideoDevice videoDevice;
     private FrameGrabber frameGrabber;
 
-    public WebCam(int id, String name, int type) throws SensorManagementException {
+    public WebCam(int id, String name, int width, int height, int channel, String device)
+            throws SensorManagementException {
         super(id, name);
-        this.type = type;
+        this.width = width;
+        this.height = height;
+        this.channel = channel;
+        this.device = device;
 
         // Initialise video device and frame grabber
         try {
             initFrameGrabber();
         } catch (V4L4JException e1) {
-            System.err.println("Error setting up capture");
-            e1.printStackTrace();
-
             // cleanup and exit
             cleanupCapture();
 
@@ -78,11 +81,12 @@ public class WebCam extends Sensor implements CaptureCallback {
 
     /**
      * Initialises the FrameGrabber object
-     * @throws V4L4JException if any parameter if invalid
+     * @throws V4L4JException if any parameter is invalid
      */
     private void initFrameGrabber() throws V4L4JException {
         videoDevice = new VideoDevice(device);
-        frameGrabber = videoDevice.getJPEGFrameGrabber(width, height, channel, std, 80);
+        int std = V4L4JConstants.STANDARD_WEBCAM;
+        frameGrabber = videoDevice.getJPEGFrameGrabber(this.width, this.height, this.channel, std, 80);
         frameGrabber.setCaptureCallback(this);
         width = frameGrabber.getWidth();
         height = frameGrabber.getHeight();

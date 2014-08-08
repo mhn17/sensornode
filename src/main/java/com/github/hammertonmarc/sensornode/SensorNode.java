@@ -1,7 +1,6 @@
 package com.github.hammertonmarc.sensornode;
 
 import com.github.hammertonmarc.sensornode.core.sensordatamanagement.SensorDataManager;
-import com.github.hammertonmarc.sensornode.core.sensordatamanagement.SensorDataQueue;
 import com.github.hammertonmarc.sensornode.core.sensormanagement.SensorManager;
 import com.github.hammertonmarc.sensornode.server.RestServer;
 import com.github.hammertonmarc.sensornode.server.Server;
@@ -12,13 +11,9 @@ import com.github.hammertonmarc.sensornode.server.Server;
 public class SensorNode {
 
     public static void main(String[] args) throws Exception {
-        // create SensorDataQueue
-        SensorDataQueue sensorDataQueue = new SensorDataQueue(1024);
-
         // create manager
-        SensorDataManager sensorDataManager = new SensorDataManager(sensorDataQueue);
+        SensorDataManager sensorDataManager = new SensorDataManager();
         SensorManager sensorManager = SensorManager.getInstance();
-        sensorManager.createSensors(sensorDataQueue);
 
         // create threads for manager
         new Thread(sensorDataManager).start();

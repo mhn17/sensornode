@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<sensors>
+    <webCam>
+        <id>1</id>
+        <name>webCam1</name>
+        <device>/dev/video0</device>
+        <width>640</width>
+        <height>480</height>
+        <channel>0</channel>
+    </webCam>
+</sensors>
