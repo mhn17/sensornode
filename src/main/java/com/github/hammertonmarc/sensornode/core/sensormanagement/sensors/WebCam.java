@@ -12,7 +12,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 /**
- * Created by marc on 17.05.14.
+ * A web cam sensor which takes periodically photos according to the capture interval
+ *
+ * @author Marc Hammerton
  */
 public class WebCam extends Sensor implements CaptureCallback {
     private int width;
@@ -20,9 +22,22 @@ public class WebCam extends Sensor implements CaptureCallback {
     private int channel;
     private String device = "/dev/video0";
 
-    private VideoDevice videoDevice;
-    private FrameGrabber frameGrabber;
+    private VideoDevice videoDevice = null;
+    private FrameGrabber frameGrabber = null;
 
+    /**
+     * Constructor
+     *  - initialise the frame grabber
+     *
+     * @param id The sensor ID
+     * @param name The sensor name
+     * @param width The width of the photo
+     * @param height The height of the photo
+     * @param channel The video channel
+     * @param device The device (the attached web cam)
+     *
+     * @throws SensorManagementException
+     */
     public WebCam(int id, String name, int width, int height, int channel, String device)
             throws SensorManagementException {
         super(id, name);
@@ -42,6 +57,9 @@ public class WebCam extends Sensor implements CaptureCallback {
         }
     }
 
+    /**
+     * @see com.github.hammertonmarc.sensornode.core.sensormanagement.Sensor#startCapturing()
+     */
     public void startCapturing() {
         // start capture
         try {
@@ -52,11 +70,17 @@ public class WebCam extends Sensor implements CaptureCallback {
         }
     }
 
+    /**
+     * @see com.github.hammertonmarc.sensornode.core.sensormanagement.Sensor#close()
+     */
     public void close() {
         this.cleanupCapture();
         System.out.println("closing web cam");
     }
 
+    /**
+     * @see au.edu.jcu.v4l4j.CaptureCallback#nextFrame(au.edu.jcu.v4l4j.VideoFrame)
+     */
     @Override
     public void nextFrame(VideoFrame videoFrame) {
         BufferedImage bi = videoFrame.getBufferedImage();
@@ -81,20 +105,22 @@ public class WebCam extends Sensor implements CaptureCallback {
 
     /**
      * Initialises the FrameGrabber object
+     *
      * @throws V4L4JException if any parameter is invalid
      */
     private void initFrameGrabber() throws V4L4JException {
         videoDevice = new VideoDevice(device);
-        int std = V4L4JConstants.STANDARD_WEBCAM;
-        frameGrabber = videoDevice.getJPEGFrameGrabber(this.width, this.height, this.channel, std, 80);
+        frameGrabber = videoDevice.getJPEGFrameGrabber(this.width, this.height, this.channel,
+                V4L4JConstants.STANDARD_WEBCAM, 80);
         frameGrabber.setCaptureCallback(this);
+
         width = frameGrabber.getWidth();
         height = frameGrabber.getHeight();
-        System.out.println("Starting capture at "+width+"x"+height);
+        System.out.println("Starting capturing at "+width+"x"+height);
     }
 
     /**
-     * this method stops the capture and releases the frame grabber and video device
+     * Stops the capture and releases the frame grabber and video device
      */
     private void cleanupCapture() {
         if (frameGrabber != null) {
@@ -113,6 +139,9 @@ public class WebCam extends Sensor implements CaptureCallback {
         }
     }
 
+    /**
+     * @see au.edu.jcu.v4l4j.CaptureCallback#exceptionReceived(au.edu.jcu.v4l4j.exceptions.V4L4JException)
+     */
     @Override
     public void exceptionReceived(V4L4JException e) {
         // This method is called by v4l4j if an exception
@@ -120,5 +149,4 @@ public class WebCam extends Sensor implements CaptureCallback {
         // The exception is available through e.getCause()
         e.printStackTrace();
     }
-
 }

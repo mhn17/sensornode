@@ -8,12 +8,19 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 /**
- * Created by marc on 14.06.14.
+ * Sensor data repository using mongoDb
+ *
+ * @author Marc Hammerton
  */
 public class MongoDbSensorDataRepository implements SensorDataRepository {
 
-    private DBCollection collection;
+    private DBCollection collection = null;
 
+    /**
+     * Constructor
+     *  - initialise mongo client
+     *  - get database and collection
+     */
     public MongoDbSensorDataRepository() {
         try {
             MongoClient mongoClient = new MongoClient( "localhost" , 27017 );
@@ -24,6 +31,11 @@ public class MongoDbSensorDataRepository implements SensorDataRepository {
         }
     }
 
+    /**
+     * Add sensor data to collection
+     *
+     * @param sensorData The sensor data to be stored
+     */
     @Override
     public void add(SensorData sensorData) {
         BasicDBObject data = new BasicDBObject("id", sensorData.getSensorId())
@@ -33,6 +45,12 @@ public class MongoDbSensorDataRepository implements SensorDataRepository {
         this.collection.insert(data);
     }
 
+    /**
+     * Find sensor data by a sensor ID
+     *
+     * @param sensorId The sensor ID for which to get the data
+     * @return The sensor data for the sensor ID
+     */
     @Override
     public ArrayList<SensorData> findBySensorId(int sensorId) {
         ArrayList<SensorData> sensorDataList = new ArrayList<SensorData>();
@@ -42,8 +60,8 @@ public class MongoDbSensorDataRepository implements SensorDataRepository {
 
         while(cursor.hasNext()) {
             BasicDBObject data = (BasicDBObject) cursor.next();
-            SensorData sensorData = new SensorData((int) data.getInt("id") , data.getString("name"),
-                    (long) data.getLong("timestamp"), (byte[]) data.get("data"));
+            SensorData sensorData = new SensorData(data.getInt("id") , data.getString("name"),
+                    data.getLong("timestamp"), (byte[]) data.get("data"));
             sensorDataList.add(sensorData);
         }
 

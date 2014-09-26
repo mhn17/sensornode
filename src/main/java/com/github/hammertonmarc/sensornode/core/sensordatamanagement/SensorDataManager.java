@@ -1,21 +1,28 @@
 package com.github.hammertonmarc.sensornode.core.sensordatamanagement;
 
-import com.github.hammertonmarc.sensornode.core.sensordatamanagement.mongodb.MongoDbSensorDataRepository;
-
 /**
- * Created by marc on 14.06.14.
+ * The SensorDataManager is responsible for getting data from the data queue and adding it to the repository
+ *
+ *  @author Marc Hammerton
  */
 public class SensorDataManager implements Runnable {
 
     protected SensorDataQueue sensorDataQueue;
-    protected boolean stop = false;
     protected SensorDataRepository repository;
+    protected boolean stop = false;
 
+    /**
+     * Constructor
+     *  - initialise the data queue and repository
+     */
     public SensorDataManager() {
         this.sensorDataQueue = SensorDataQueue.getInstance();
         this.repository = SensorDataRepositoryFactory.getRepository();
     }
 
+    /**
+     * Start checking the data queue for new data and adding it to the repository
+     */
     @Override
     public void run() {
         while (!this.stop) {
@@ -28,10 +35,18 @@ public class SensorDataManager implements Runnable {
         }
     }
 
+    /**
+     * Return the sensor data repository
+     *
+     * @return The sensor data repository
+     */
     public SensorDataRepository getRepository() {
         return this.repository;
     }
 
+    /**
+     * Stop getting data from the data queue
+     */
     public void stop() {
         this.stop = true;
     }

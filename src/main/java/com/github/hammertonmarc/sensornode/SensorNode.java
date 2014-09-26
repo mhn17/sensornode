@@ -6,7 +6,9 @@ import com.github.hammertonmarc.sensornode.server.RestServer;
 import com.github.hammertonmarc.sensornode.server.Server;
 
 /**
- * Created by marc on 17.05.14.
+ * Main class for the sensor node
+ *
+ * @author Marc Hammerton
  */
 public class SensorNode {
 
@@ -23,15 +25,18 @@ public class SensorNode {
         Server server = new RestServer();
         new Thread(server).start();
 
+        // wait for user action to stop
+        System.out.println("Sensor node running. Press <enter> to quit");
         while(true) {
             int in = System.in.read();
-            if (in != 0) {
+            // ToDo Change back to 0 and fix problems on windows
+            if (in != -1) {
                 sensorManager.closeAll();
                 server.stop();
+                sensorDataManager.stop();
                 System.exit(0);
             }
         }
-
     }
 
 }

@@ -1,8 +1,14 @@
 package com.github.hammertonmarc.sensornode.server;
 
 /**
- * Created by marc on 06.07.14.
+ * Interface for servers
+ *
+ * @author Marc Hammerton
  */
 public interface Server extends Runnable {
+
+    /**
+     * Stop the server
+     */
     public void stop();
 }

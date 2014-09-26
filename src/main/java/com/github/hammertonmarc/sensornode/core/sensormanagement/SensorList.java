@@ -1,17 +1,11 @@
 package com.github.hammertonmarc.sensornode.core.sensormanagement;
 
-import org.apache.commons.configuration.Configuration;
-
 import java.util.ArrayList;
 
 /**
- * Created by marc on 17.05.14.
+ * Sensor list containing all active sensors
+ *
+ * @author Marc Hammerton
  */
 public class SensorList extends ArrayList<Sensor> {
-
-    public void fillListFromConfiguration(Configuration config) {
-
-
-    }
-
 }

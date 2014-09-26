@@ -3,11 +3,15 @@ package com.github.hammertonmarc.sensornode.core.sensordatamanagement;
 import com.github.hammertonmarc.sensornode.core.sensordatamanagement.mongodb.MongoDbSensorDataRepository;
 
 /**
- * Created by marc on 20.07.14.
+ * Factory for getting sensor data repositories
+ *
+ * @author Marc Hammerton
  */
 public class SensorDataRepositoryFactory {
 
     /**
+     * Return a SensorDataRepository
+     *
      * @return SensorDataRepository
      */
     public static SensorDataRepository getRepository() {
