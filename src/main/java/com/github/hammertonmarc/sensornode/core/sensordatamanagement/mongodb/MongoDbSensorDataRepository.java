@@ -4,7 +4,6 @@ import com.github.hammertonmarc.sensornode.core.sensordatamanagement.SensorData;
 import com.github.hammertonmarc.sensornode.core.sensordatamanagement.SensorDataRepository;
 import com.mongodb.*;
 
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 /**
@@ -18,17 +17,12 @@ public class MongoDbSensorDataRepository implements SensorDataRepository {
 
     /**
      * Constructor
-     *  - initialise mongo client
-     *  - get database and collection
+     *  - set the collection for the mongoDb
+     *
+     *  @param collection The mongoDb collection for sensor data
      */
-    public MongoDbSensorDataRepository() {
-        try {
-            MongoClient mongoClient = new MongoClient( "localhost" , 27017 );
-            DB db = mongoClient.getDB("sensorNode");
-            this.collection = db.getCollection("sensorData");
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
+    public MongoDbSensorDataRepository(DBCollection collection) {
+        this.collection = collection;
     }
 
     /**
@@ -38,10 +32,7 @@ public class MongoDbSensorDataRepository implements SensorDataRepository {
      */
     @Override
     public void add(SensorData sensorData) {
-        BasicDBObject data = new BasicDBObject("id", sensorData.getSensorId())
-                .append("name", sensorData.getSensorName())
-                .append("timestamp", sensorData.getTimestamp())
-                .append("data", sensorData.getData());
+        BasicDBObject data = getBasicDBObject(sensorData);
         this.collection.insert(data);
     }
 
@@ -60,11 +51,37 @@ public class MongoDbSensorDataRepository implements SensorDataRepository {
 
         while(cursor.hasNext()) {
             BasicDBObject data = (BasicDBObject) cursor.next();
-            SensorData sensorData = new SensorData(data.getInt("id") , data.getString("name"),
-                    data.getLong("timestamp"), (byte[]) data.get("data"));
+            SensorData sensorData = getSensorDataFromDBObject(data);
             sensorDataList.add(sensorData);
         }
 
         return sensorDataList;
+    }
+
+    /**
+     * Return a BasicDBObject for sensor data
+     *
+     * @param sensorData The sensor data which should be converted into a BasicDBObject
+     * @return A BasicDBObject based on the sensor data
+     */
+    private BasicDBObject getBasicDBObject(SensorData sensorData) {
+        return new BasicDBObject("id", sensorData.getSensorId())
+                .append("name", sensorData.getSensorName())
+                .append("timestamp", sensorData.getTimestamp())
+                .append("data", sensorData.getData());
+    }
+
+    /**
+     * Return SensorData object based on a DBObject
+     *
+     * @param data The DBObject with the data
+     * @return The SensorData object
+     */
+    private SensorData getSensorDataFromDBObject(BasicDBObject data) {
+        return new SensorData(
+                data.getInt("id"),
+                data.getString("name"),
+                data.getLong("timestamp"),
+                (byte[]) data.get("data"));
     }
 }

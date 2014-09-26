@@ -26,11 +26,22 @@ public class SensorNode {
         new Thread(server).start();
 
         // wait for user action to stop
-        System.out.println("Sensor node running. Press <enter> to quit");
+//        System.out.println("Sensor node running. Press <enter> to quit");
+//        while(true) {
+//            int in = System.in.read();
+//            // ToDo Change back to 0 and fix problems on windows
+//            if (in != 0) {
+//                sensorManager.closeAll();
+//                server.stop();
+//                sensorDataManager.stop();
+//                System.exit(0);
+//            }
+//        }
+
+        // wait for user action to stop
         while(true) {
             int in = System.in.read();
-            // ToDo Change back to 0 and fix problems on windows
-            if (in != -1) {
+            if (in != 0) {
                 sensorManager.closeAll();
                 server.stop();
                 sensorDataManager.stop();

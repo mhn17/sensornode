@@ -43,6 +43,7 @@ public class Dummy extends Sensor {
     public void startCapturing() {
         Random random = new Random();
         byte[] randomBytes = new byte[4];
+
         while (this.continueCapture) {
             // set random data
             random.nextBytes(randomBytes);

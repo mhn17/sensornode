@@ -1,5 +1,6 @@
 package com.github.hammertonmarc.sensornode.server.rest.resources;
 
+import com.github.hammertonmarc.sensornode.core.exceptions.SensorDataManagementException;
 import com.github.hammertonmarc.sensornode.core.sensordatamanagement.SensorDataRepository;
 import com.github.hammertonmarc.sensornode.core.sensordatamanagement.SensorDataRepositoryFactory;
 import com.github.hammertonmarc.sensornode.core.sensormanagement.SensorManager;
@@ -24,7 +25,11 @@ public class SensorResource {
      */
     public SensorResource() {
         this.sensorManager = SensorManager.getInstance();
-        this.repository = SensorDataRepositoryFactory.getRepository();
+        try {
+            this.repository = SensorDataRepositoryFactory.getRepository();
+        } catch (SensorDataManagementException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
