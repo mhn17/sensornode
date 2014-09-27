@@ -1,13 +1,18 @@
 package com.github.hammertonmarc.sensornode.core.sensormanagement.sensorrepository;
 
 import com.github.hammertonmarc.sensornode.core.sensormanagement.SensorList;
-import com.github.hammertonmarc.sensornode.core.sensormanagement.sensors.Dummy;
-import com.github.hammertonmarc.sensornode.core.sensormanagement.sensors.WebCam;
+import com.github.hammertonmarc.sensornode.core.sensormanagement.sensors.DummySensor;
+import com.github.hammertonmarc.sensornode.core.sensormanagement.sensors.WebCamSensor;
+import com.github.hammertonmarc.sensornode.core.sensormanagement.sensors.devices.DeviceFactory;
+import com.github.hammertonmarc.sensornode.core.sensormanagement.sensors.devices.IWebCamDevice;
+import com.github.hammertonmarc.sensornode.core.sensormanagement.sensors.devices.WebCamDevice;
 import org.apache.commons.configuration.XMLConfiguration;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.junit.Assert.assertEquals;
@@ -16,12 +21,15 @@ import static org.junit.Assert.assertTrue;
 @RunWith(MockitoJUnitRunner.class)
 public class XMLSensorRepositoryTest {
 
+    @Mock
+    private DeviceFactory deviceFactory = null;
+
     private XMLSensorRepository repository = null;
 
     @Before
     public void setUp() throws Exception {
         XMLConfiguration configuration = new XMLConfiguration("sensors.xml");
-        this.repository = new XMLSensorRepository(configuration);
+        this.repository = new XMLSensorRepository(configuration, deviceFactory);
     }
 
     @After
@@ -31,11 +39,14 @@ public class XMLSensorRepositoryTest {
 
     @Test
     public void testGetActiveSensors() throws Exception {
+        IWebCamDevice device = Mockito.mock(IWebCamDevice.class);
+        Mockito.doReturn(device).when(this.deviceFactory).getWebCamDevice("/dev/video0", 640, 480, 0);
+
         SensorList activeSensors = this.repository.getActiveSensors();
         assertTrue(activeSensors != null);
         assertTrue(activeSensors.size() == 2);
 
-        assertEquals(WebCam.class, activeSensors.get(0).getClass());
-        assertEquals(Dummy.class, activeSensors.get(1).getClass());
+        assertEquals(WebCamSensor.class, activeSensors.get(0).getClass());
+        assertEquals(DummySensor.class, activeSensors.get(1).getClass());
     }
 }

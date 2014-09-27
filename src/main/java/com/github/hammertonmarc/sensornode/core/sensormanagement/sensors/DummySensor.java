@@ -6,25 +6,25 @@ import java.util.Random;
 
 
 /**
- * Dummy sensor for testing
+ * DummySensor sensor for testing
  *
  * @author Marc Hammerton
  */
-public class Dummy extends Sensor {
+public class DummySensor extends Sensor {
 
     private Boolean capturing = false;
 
     /**
      * @see com.github.hammertonmarc.sensornode.core.sensormanagement.Sensor#Sensor(int, String)
      */
-    public Dummy(int id, String name) {
+    public DummySensor(int id, String name) {
         super(id, name);
     }
 
     /**
      * @see com.github.hammertonmarc.sensornode.core.sensormanagement.Sensor#Sensor(int, String, int)
      */
-    public Dummy(int id, String name, int captureInterval) {
+    public DummySensor(int id, String name, int captureInterval) {
         super(id, name, captureInterval);
     }
 

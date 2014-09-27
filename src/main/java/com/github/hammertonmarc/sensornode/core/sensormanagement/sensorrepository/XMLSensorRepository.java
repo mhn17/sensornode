@@ -4,11 +4,13 @@ import com.github.hammertonmarc.sensornode.core.exceptions.SensorManagementExcep
 import com.github.hammertonmarc.sensornode.core.sensormanagement.Sensor;
 import com.github.hammertonmarc.sensornode.core.sensormanagement.SensorList;
 import com.github.hammertonmarc.sensornode.core.sensormanagement.SensorRepository;
-import com.github.hammertonmarc.sensornode.core.sensormanagement.sensors.Dummy;
-import com.github.hammertonmarc.sensornode.core.sensormanagement.sensors.WebCam;
-import org.apache.commons.configuration.ConfigurationException;
+import com.github.hammertonmarc.sensornode.core.sensormanagement.sensors.DummySensor;
+import com.github.hammertonmarc.sensornode.core.sensormanagement.sensors.WebCamSensor;
+import com.github.hammertonmarc.sensornode.core.sensormanagement.sensors.devices.DeviceFactory;
+import com.github.hammertonmarc.sensornode.core.sensormanagement.sensors.devices.IWebCamDevice;
+import com.github.hammertonmarc.sensornode.core.sensormanagement.sensors.devices.WebCamDevice;
 import org.apache.commons.configuration.HierarchicalConfiguration;
-import org.apache.commons.configuration.XMLConfiguration;
+
 import java.util.List;
 
 /**
@@ -20,13 +22,15 @@ public class XMLSensorRepository implements SensorRepository {
 
     private SensorList sensorList = null;
     private HierarchicalConfiguration config;
+    private DeviceFactory deviceFactory;
 
     /**
      * Constructor
      * @param config The XML configuration
      */
-    public XMLSensorRepository(HierarchicalConfiguration config) {
+    public XMLSensorRepository(HierarchicalConfiguration config, DeviceFactory deviceFactory) {
         this.config = config;
+        this.deviceFactory = deviceFactory;
     }
 
     /**
@@ -68,7 +72,7 @@ public class XMLSensorRepository implements SensorRepository {
      */
     private void createDummySensors(List<HierarchicalConfiguration> dummySensors) {
        for (HierarchicalConfiguration dummy : dummySensors) {
-            Sensor sensor = new Dummy(
+            Sensor sensor = new DummySensor(
                     dummy.getInt("id"),
                     dummy.getString("name")
             );
@@ -84,16 +88,19 @@ public class XMLSensorRepository implements SensorRepository {
      */
     private void createWebCams(List<HierarchicalConfiguration> webCams) {
         for (HierarchicalConfiguration webCam : webCams) {
-            Sensor sensor = new WebCam(
-                    webCam.getInt("id"),
-                    webCam.getString("name"),
-                    webCam.getInt("width"),
-                    webCam.getInt("height"),
-                    webCam.getInt("channel"),
-                    webCam.getString("devicePath")
-            );
+            try {
+                IWebCamDevice device = this.deviceFactory.getWebCamDevice(
+                        webCam.getString("devicePath"),
+                        webCam.getInt("width"),
+                        webCam.getInt("height"),
+                        webCam.getInt("channel"));
 
-            this.sensorList.add(sensor);
+                Sensor sensor = new WebCamSensor(webCam.getInt("id"), webCam.getString("name"), device);
+                this.sensorList.add(sensor);
+            } catch (SensorManagementException e) {
+                System.out.println("Could not add web cam sensor to list:");
+                System.out.println(e.getMessage());
+            }
         }
     }
 }

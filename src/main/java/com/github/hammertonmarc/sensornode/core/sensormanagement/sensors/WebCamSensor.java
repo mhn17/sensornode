@@ -1,10 +1,11 @@
 package com.github.hammertonmarc.sensornode.core.sensormanagement.sensors;
 
 import au.edu.jcu.v4l4j.*;
-import au.edu.jcu.v4l4j.exceptions.StateException;
 import au.edu.jcu.v4l4j.exceptions.V4L4JException;
 import com.github.hammertonmarc.sensornode.core.exceptions.SensorManagementException;
 import com.github.hammertonmarc.sensornode.core.sensormanagement.Sensor;
+import com.github.hammertonmarc.sensornode.core.sensormanagement.sensors.devices.IWebCamDevice;
+import com.github.hammertonmarc.sensornode.core.sensormanagement.sensors.devices.WebCamDevice;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -16,51 +17,35 @@ import java.io.IOException;
  *
  * @author Marc Hammerton
  */
-public class WebCam extends Sensor implements CaptureCallback {
+public class WebCamSensor extends Sensor implements CaptureCallback {
 
-    private int width;
-    private int height;
-    private int channel;
-    private String device = "/dev/video0";
-
-    private VideoDevice videoDevice = null;
-    private FrameGrabber frameGrabber = null;
+    private IWebCamDevice device = null;
 
     /**
      * Constructor using standard capture interval
      *
      * @param id The sensor ID
      * @param name The sensor name
-     * @param width The width of the photo
-     * @param height The height of the photo
-     * @param channel The video channel
-     * @param device The device (the attached web cam)
+     * @param device The web cam device
+
      */
-    public WebCam(int id, String name, int width, int height, int channel, String device) {
+    public WebCamSensor(int id, String name, IWebCamDevice device) {
         super(id, name);
-        this.width = width;
-        this.height = height;
-        this.channel = channel;
         this.device = device;
     }
 
     /**
-     * Constructor
+     * Constructor with specific capture interval
      *
      * @param id The sensor ID
      * @param name The sensor name
      * @param captureInterval The capture interval
-     * @param width The width of the photo
-     * @param height The height of the photo
-     * @param channel The video channel
-     * @param device The device (the attached web cam)
+     * @param device The web cam device
      */
-    public WebCam(int id, String name, int captureInterval, int width, int height, int channel, String device) {
+    public WebCamSensor(int id, String name, int captureInterval, IWebCamDevice device) {
         super(id, name, captureInterval);
-        this.width = width;
-        this.height = height;
-        this.channel = channel;
         this.device = device;
+
     }
 
     /**
@@ -70,8 +55,8 @@ public class WebCam extends Sensor implements CaptureCallback {
      */
     public void startCapturing() throws SensorManagementException {
         try {
-            initFrameGrabber();
-            frameGrabber.startCapture();
+            this.device.getCurrentFrameGrabber().setCaptureCallback(this);
+            this.device.getCurrentFrameGrabber().startCapture();
         } catch (V4L4JException e1) {
             // cleanup and exit
             cleanupCapture();
@@ -121,34 +106,9 @@ public class WebCam extends Sensor implements CaptureCallback {
     }
 
     /**
-     * Initialises the FrameGrabber object
-     *
-     * @throws V4L4JException if any parameter is invalid
-     */
-    private void initFrameGrabber() throws V4L4JException {
-        this.videoDevice = new VideoDevice(this.device);
-        this.frameGrabber = videoDevice.getJPEGFrameGrabber(this.width, this.height, this.channel,
-                V4L4JConstants.STANDARD_WEBCAM, 80);
-        this.frameGrabber.setCaptureCallback(this);
-    }
-
-    /**
      * Stops the capture and releases the frame grabber and video device
      */
     private void cleanupCapture() {
-        if (frameGrabber != null) {
-            try {
-                frameGrabber.stopCapture();
-            } catch (StateException ex) {
-                // the frame grabber may be already stopped, so we just ignore
-                // any exception and simply continue.
-            }
-        }
-
-        if (videoDevice != null) {
-            // release the frame grabber and video device
-            videoDevice.releaseFrameGrabber();
-            videoDevice.release();
-        }
+        this.device.releaseAll();
     }
 }

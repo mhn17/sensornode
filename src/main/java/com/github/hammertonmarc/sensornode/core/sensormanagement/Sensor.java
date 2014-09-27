@@ -100,7 +100,7 @@ public abstract class Sensor implements Runnable {
             try {
                 this.sensorDataQueue.put(sensorData);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                System.out.println("Sensor " + this.name + " was interrupted while adding data to the queue.");
             }
         }
     }
