@@ -6,6 +6,8 @@ import au.edu.jcu.v4l4j.VideoDevice;
 import au.edu.jcu.v4l4j.exceptions.StateException;
 import au.edu.jcu.v4l4j.exceptions.V4L4JException;
 
+import java.util.Arrays;
+
 /**
  * Wrapper class for V4L4J video devices
  *
@@ -27,19 +29,34 @@ public class WebCamDevice extends VideoDevice implements IWebCamDevice {
         super(dev);
     }
 
+    /**
+     * @see  IWebCamDevice#getCurrentFrameGrabber()
+     *
+     * @return The current frame grabber for this device
+     */
     public FrameGrabber getCurrentFrameGrabber() {
         return currentFrameGrabber;
     }
 
+    /**
+     * Initialise the frame grabber
+     *
+     * @param width Image width
+     * @param height Image height
+     * @param channel Input channel
+     */
     public void initCurrentFrameGrabber(int width, int height, int channel) {
         try {
             this.currentFrameGrabber = this.getJPEGFrameGrabber(width, height, channel,
-                        V4L4JConstants.STANDARD_WEBCAM, 80);
+                    V4L4JConstants.STANDARD_WEBCAM, 80);
         } catch (V4L4JException e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * @see  IWebCamDevice#releaseAll()
+     */
     public void releaseAll() {
         if (this.currentFrameGrabber != null) {
             try {
@@ -50,7 +67,6 @@ public class WebCamDevice extends VideoDevice implements IWebCamDevice {
                 // any exception and simply continue.
             }
         }
-
         this.releaseFrameGrabber();
         this.release();
     }

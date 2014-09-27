@@ -45,7 +45,6 @@ public class WebCamSensor extends Sensor implements CaptureCallback {
     public WebCamSensor(int id, String name, int captureInterval, IWebCamDevice device) {
         super(id, name, captureInterval);
         this.device = device;
-
     }
 
     /**
@@ -53,24 +52,26 @@ public class WebCamSensor extends Sensor implements CaptureCallback {
      *
      * @see com.github.hammertonmarc.sensornode.core.sensormanagement.Sensor#startCapturing()
      */
-    public void startCapturing() throws SensorManagementException {
+    public synchronized void startCapturing() throws SensorManagementException {
         try {
             this.device.getCurrentFrameGrabber().setCaptureCallback(this);
             this.device.getCurrentFrameGrabber().startCapture();
-        } catch (V4L4JException e1) {
+        } catch (V4L4JException e) {
             // cleanup and exit
-            cleanupCapture();
+            this.close();
 
-            throw new SensorManagementException("Sensor not connected");
+            throw new SensorManagementException("Could not start capturing for web cam");
         }
     }
 
     /**
+     * Stops the capture and releases the frame grabber and video device
+     *
      * @see com.github.hammertonmarc.sensornode.core.sensormanagement.Sensor#close()
      */
-    public void close() {
-        this.cleanupCapture();
+    public synchronized void close() {
         System.out.println("closing web cam");
+        this.device.releaseAll();
     }
 
     /**
@@ -103,12 +104,5 @@ public class WebCamSensor extends Sensor implements CaptureCallback {
         // occurs while waiting for a new frame to be ready.
         // The exception is available through e.getCause()
         e.printStackTrace();
-    }
-
-    /**
-     * Stops the capture and releases the frame grabber and video device
-     */
-    private void cleanupCapture() {
-        this.device.releaseAll();
     }
 }

@@ -20,7 +20,7 @@ public class SensorMock extends Sensor {
     /**
      * @param id The sensor id
      * @param name The name of the sensor
-     * @param captureInterval The interval for caputuring data
+     * @param captureInterval The interval for capturing data
      */
     public SensorMock(int id, String name, int captureInterval) {
         super(id, name, captureInterval);

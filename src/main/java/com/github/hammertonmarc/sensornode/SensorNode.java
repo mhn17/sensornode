@@ -33,6 +33,7 @@ public class SensorNode {
         while(true) {
             String line = scanner.nextLine();
             if (line.equals("q")) {
+                System.out.println("shutting down");
                 sensorManager.closeAll();
 //                server.stop();
                 sensorDataManager.stop();

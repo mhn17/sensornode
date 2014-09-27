@@ -1,11 +1,14 @@
 package com.github.hammertonmarc.sensornode.core.sensormanagement;
 
+import com.github.hammertonmarc.sensornode.core.exceptions.SensorManagementException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import static org.junit.Assert.assertSame;
 import static org.mockito.Mockito.*;
 
 /**
@@ -26,6 +29,7 @@ public class SensorManagerTest {
 
         for (int i=0; i<3; i++) {
             Sensor sensor = mock(Sensor.class);
+            Mockito.doNothing().when(sensor).run();
             sensorList.add(sensor);
         }
 
@@ -39,19 +43,25 @@ public class SensorManagerTest {
     }
 
     @Test
-    public void collectData() throws Exception {
+    public void testCollectData() throws Exception {
         this.sensorManager.collectData();
 
+        Thread.sleep(100);
         for (Sensor sensor : this.sensorManager.getSensorList()) {
             verify(sensor).run();
         }
     }
 
+    @Test(expected = SensorManagementException.class)
+    public void testCollectDataThrowsException() throws Exception {
+        this.sensorManager.setSensorList(null);
+        this.sensorManager.collectData();
+    }
+
     @Test
-    public void getSensorList() throws Exception {
+    public void testGetSensorList() throws Exception {
         SensorList sensorList = this.sensorManager.getSensorList();
-        org.junit.Assert.assertSame("should be the same sensor list",
-                this.sensorList, sensorList);
+        assertSame("should be the same sensor list", this.sensorList, sensorList);
     }
 
     @Test

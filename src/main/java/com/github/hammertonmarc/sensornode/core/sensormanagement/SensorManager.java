@@ -21,11 +21,19 @@ public class SensorManager implements Runnable {
      */
     private SensorList sensorList = null;
 
+    private SensorRepository sensorRepository = null;
+
     /**
      * Private constructor. Use getInstance to get an instance of the sensor
      * manager.
      */
-    private SensorManager() {}
+    private SensorManager() {
+        try {
+            this.sensorRepository = SensorRepositoryFactory.getRepository();
+        } catch (SensorManagementException e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * Return an instance of the sensor manager
@@ -41,10 +49,8 @@ public class SensorManager implements Runnable {
      */
     @Override
     public void run() {
-        SensorRepository repository;
         try {
-            repository = SensorRepositoryFactory.getRepository();
-            this.sensorList = repository.getActiveSensors();
+            this.sensorList = this.sensorRepository.getActiveSensors();
             this.collectData();
         } catch (SensorManagementException e) {
             System.out.println(e.getMessage());
@@ -60,7 +66,7 @@ public class SensorManager implements Runnable {
                     "starting the  manager.");
         }
         for (Sensor sensor : this.sensorList) {
-            new Thread(sensor).run();
+            new Thread(sensor).start();
         }
     }
 

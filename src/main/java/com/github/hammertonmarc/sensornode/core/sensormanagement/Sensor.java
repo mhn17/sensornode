@@ -106,9 +106,27 @@ public abstract class Sensor implements Runnable {
     }
 
     /**
+     * Get the sensor data queue
+     *
+     * return the sensor data queue
+     */
+    public BlockingQueue<SensorData> getSensorDataQueue() {
+        return sensorDataQueue;
+    }
+
+    /**
+     * Set the sensor data queue
+     *
+     * @param sensorDataQueue The sensor data queue
+     */
+    public void setSensorDataQueue(BlockingQueue<SensorData> sensorDataQueue) {
+        this.sensorDataQueue = sensorDataQueue;
+    }
+
+    /**
      * Wait for next capture depending on the capture interval
      */
-    protected void waitForNextCapture() {
+    protected synchronized void waitForNextCapture() {
         try {
             Thread.sleep(this.captureInterval);
         } catch (InterruptedException e) {

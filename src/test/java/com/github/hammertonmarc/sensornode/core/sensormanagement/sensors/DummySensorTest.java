@@ -7,13 +7,13 @@ import org.mockito.Mockito;
 
 import static org.junit.Assert.*;
 
-public class DummyTest {
+public class DummySensorTest {
 
-    Dummy sensor = null;
+    DummySensor sensor = null;
 
     @Before
     public void setUp() throws Exception {
-        this.sensor = new Dummy(1, "sensor", 10);
+        this.sensor = new DummySensor(1, "sensor", 10);
     }
 
     @After
@@ -29,7 +29,7 @@ public class DummyTest {
 
     @Test
     public void testStartCapturing() throws Exception {
-        Dummy spySensor = Mockito.spy(this.sensor);
+        DummySensor spySensor = Mockito.spy(this.sensor);
 
         Mockito.when(spySensor.isCapturing()).thenReturn(true).thenReturn(false);
         spySensor.startCapturing();
