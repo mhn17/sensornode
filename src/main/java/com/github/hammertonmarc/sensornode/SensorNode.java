@@ -5,6 +5,8 @@ import com.github.hammertonmarc.sensornode.core.sensormanagement.SensorManager;
 import com.github.hammertonmarc.sensornode.server.RestServer;
 import com.github.hammertonmarc.sensornode.server.Server;
 
+import java.util.Scanner;
+
 /**
  * Main class for the sensor node
  *
@@ -22,28 +24,17 @@ public class SensorNode {
         new Thread(sensorManager).start();
 
         // create server
-        Server server = new RestServer();
-        new Thread(server).start();
+//        Server server = new RestServer();
+//        new Thread(server).start();
 
         // wait for user action to stop
-//        System.out.println("Sensor node running. Press <enter> to quit");
-//        while(true) {
-//            int in = System.in.read();
-//            // ToDo Change back to 0 and fix problems on windows
-//            if (in != 0) {
-//                sensorManager.closeAll();
-//                server.stop();
-//                sensorDataManager.stop();
-//                System.exit(0);
-//            }
-//        }
-
-        // wait for user action to stop
+        System.out.println("Press <q> to exit");
+        Scanner scanner = new Scanner(System.in);
         while(true) {
-            int in = System.in.read();
-            if (in != 0) {
+            String line = scanner.nextLine();
+            if (line.equals("q")) {
                 sensorManager.closeAll();
-                server.stop();
+//                server.stop();
                 sensorDataManager.stop();
                 System.exit(0);
             }

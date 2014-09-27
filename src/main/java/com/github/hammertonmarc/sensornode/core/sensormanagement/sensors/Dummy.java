@@ -1,5 +1,6 @@
 package com.github.hammertonmarc.sensornode.core.sensormanagement.sensors;
 
+import com.github.hammertonmarc.sensornode.core.exceptions.SensorManagementException;
 import com.github.hammertonmarc.sensornode.core.sensormanagement.Sensor;
 import java.util.Random;
 
@@ -11,7 +12,7 @@ import java.util.Random;
  */
 public class Dummy extends Sensor {
 
-    private Boolean continueCapture = true;
+    private Boolean capturing = false;
 
     /**
      * @see com.github.hammertonmarc.sensornode.core.sensormanagement.Sensor#Sensor(int, String)
@@ -32,7 +33,7 @@ public class Dummy extends Sensor {
      */
     @Override
     public void close() {
-        this.continueCapture = false;
+        this.capturing = false;
         System.out.println("closing dummy sensor");
     }
 
@@ -41,21 +42,26 @@ public class Dummy extends Sensor {
      */
     @Override
     public void startCapturing() {
+        this.capturing = true;
+
         Random random = new Random();
         byte[] randomBytes = new byte[4];
 
-        while (this.continueCapture) {
+        while (this.isCapturing()) {
             // set random data
             random.nextBytes(randomBytes);
             this.setData(randomBytes);
-
-            // wait for next capture
-            try {
-                Thread.sleep(captureInterval);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            this.waitForNextCapture();
         }
+    }
+
+    /**
+     * Shows if the sensor is still capturing data
+     *
+     * @return True when the sensor is capturing, false when it stopped
+     */
+    public Boolean isCapturing() {
+        return capturing;
     }
 
 }

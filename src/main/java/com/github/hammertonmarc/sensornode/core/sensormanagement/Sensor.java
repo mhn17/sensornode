@@ -1,5 +1,6 @@
 package com.github.hammertonmarc.sensornode.core.sensormanagement;
 
+import com.github.hammertonmarc.sensornode.core.exceptions.SensorManagementException;
 import com.github.hammertonmarc.sensornode.core.sensordatamanagement.SensorData;
 import com.github.hammertonmarc.sensornode.core.sensordatamanagement.SensorDataQueue;
 
@@ -53,8 +54,10 @@ public abstract class Sensor implements Runnable {
 
     /**
      * Start capturing data from the sensor
+     *
+     * @throws SensorManagementException
      */
-    public abstract void startCapturing();
+    public abstract void startCapturing() throws SensorManagementException;
 
     /**
      * Return the sensor ID
@@ -103,11 +106,26 @@ public abstract class Sensor implements Runnable {
     }
 
     /**
+     * Wait for next capture depending on the capture interval
+     */
+    protected void waitForNextCapture() {
+        try {
+            Thread.sleep(this.captureInterval);
+        } catch (InterruptedException e) {
+            this.close();
+        }
+    }
+
+    /**
      * Start capturing data for this sensor
      */
     @Override
     public void run() {
-        this.startCapturing();
+        try {
+            this.startCapturing();
+        } catch (SensorManagementException e) {
+            e.printStackTrace();
+        }
     }
 
 }

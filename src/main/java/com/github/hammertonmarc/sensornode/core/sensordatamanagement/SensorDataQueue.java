@@ -9,6 +9,8 @@ import java.util.concurrent.ArrayBlockingQueue;
  */
 public class SensorDataQueue extends ArrayBlockingQueue<SensorData> {
 
+    private final SensorData POISON_PILL = new SensorData(1000, "POISON_PILL", new byte[1]);
+
     /**
      * The maximum number of elements in the queue
      */
@@ -30,5 +32,14 @@ public class SensorDataQueue extends ArrayBlockingQueue<SensorData> {
      */
     public static SensorDataQueue getInstance() {
         return instance;
+    }
+
+    /**
+     * Get the poison pill object, which can be used to stop taking from the queue
+     *
+     * @return The sensor data poison pill
+     */
+    public SensorData getPoisonPill() {
+        return this.POISON_PILL;
     }
 }

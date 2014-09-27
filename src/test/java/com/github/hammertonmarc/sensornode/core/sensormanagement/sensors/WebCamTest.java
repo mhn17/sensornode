@@ -7,6 +7,9 @@ import org.junit.Before;
  * @author Marc Hammerton
  */
 public class WebCamTest {
+
+
+
     @Before
     public void setUp() throws Exception {
 

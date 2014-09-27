@@ -17,6 +17,7 @@ import java.io.IOException;
  * @author Marc Hammerton
  */
 public class WebCam extends Sensor implements CaptureCallback {
+
     private int width;
     private int height;
     private int channel;
@@ -26,8 +27,7 @@ public class WebCam extends Sensor implements CaptureCallback {
     private FrameGrabber frameGrabber = null;
 
     /**
-     * Constructor
-     *  - initialise the frame grabber
+     * Constructor using standard capture interval
      *
      * @param id The sensor ID
      * @param name The sensor name
@@ -35,38 +35,48 @@ public class WebCam extends Sensor implements CaptureCallback {
      * @param height The height of the photo
      * @param channel The video channel
      * @param device The device (the attached web cam)
-     *
-     * @throws SensorManagementException
      */
-    public WebCam(int id, String name, int width, int height, int channel, String device)
-            throws SensorManagementException {
+    public WebCam(int id, String name, int width, int height, int channel, String device) {
         super(id, name);
         this.width = width;
         this.height = height;
         this.channel = channel;
         this.device = device;
+    }
 
-        // Initialise video device and frame grabber
+    /**
+     * Constructor
+     *
+     * @param id The sensor ID
+     * @param name The sensor name
+     * @param captureInterval The capture interval
+     * @param width The width of the photo
+     * @param height The height of the photo
+     * @param channel The video channel
+     * @param device The device (the attached web cam)
+     */
+    public WebCam(int id, String name, int captureInterval, int width, int height, int channel, String device) {
+        super(id, name, captureInterval);
+        this.width = width;
+        this.height = height;
+        this.channel = channel;
+        this.device = device;
+    }
+
+    /**
+     * Initialise video device and frame grabber and start capturing
+     *
+     * @see com.github.hammertonmarc.sensornode.core.sensormanagement.Sensor#startCapturing()
+     */
+    public void startCapturing() throws SensorManagementException {
         try {
             initFrameGrabber();
+            frameGrabber.startCapture();
         } catch (V4L4JException e1) {
             // cleanup and exit
             cleanupCapture();
 
             throw new SensorManagementException("Sensor not connected");
-        }
-    }
-
-    /**
-     * @see com.github.hammertonmarc.sensornode.core.sensormanagement.Sensor#startCapturing()
-     */
-    public void startCapturing() {
-        // start capture
-        try {
-            frameGrabber.startCapture();
-        } catch (V4L4JException e){
-            System.err.println("Error starting the capture");
-            e.printStackTrace();
         }
     }
 
@@ -95,12 +105,19 @@ public class WebCam extends Sensor implements CaptureCallback {
             e.printStackTrace();
         }
 
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        this.waitForNextCapture();
         videoFrame.recycle();
+    }
+
+    /**
+     * @see au.edu.jcu.v4l4j.CaptureCallback#exceptionReceived(au.edu.jcu.v4l4j.exceptions.V4L4JException)
+     */
+    @Override
+    public void exceptionReceived(V4L4JException e) {
+        // This method is called by v4l4j if an exception
+        // occurs while waiting for a new frame to be ready.
+        // The exception is available through e.getCause()
+        e.printStackTrace();
     }
 
     /**
@@ -109,14 +126,10 @@ public class WebCam extends Sensor implements CaptureCallback {
      * @throws V4L4JException if any parameter is invalid
      */
     private void initFrameGrabber() throws V4L4JException {
-        videoDevice = new VideoDevice(device);
-        frameGrabber = videoDevice.getJPEGFrameGrabber(this.width, this.height, this.channel,
+        this.videoDevice = new VideoDevice(this.device);
+        this.frameGrabber = videoDevice.getJPEGFrameGrabber(this.width, this.height, this.channel,
                 V4L4JConstants.STANDARD_WEBCAM, 80);
-        frameGrabber.setCaptureCallback(this);
-
-        width = frameGrabber.getWidth();
-        height = frameGrabber.getHeight();
-        System.out.println("Starting capturing at "+width+"x"+height);
+        this.frameGrabber.setCaptureCallback(this);
     }
 
     /**
@@ -137,16 +150,5 @@ public class WebCam extends Sensor implements CaptureCallback {
             videoDevice.releaseFrameGrabber();
             videoDevice.release();
         }
-    }
-
-    /**
-     * @see au.edu.jcu.v4l4j.CaptureCallback#exceptionReceived(au.edu.jcu.v4l4j.exceptions.V4L4JException)
-     */
-    @Override
-    public void exceptionReceived(V4L4JException e) {
-        // This method is called by v4l4j if an exception
-        // occurs while waiting for a new frame to be ready.
-        // The exception is available through e.getCause()
-        e.printStackTrace();
     }
 }

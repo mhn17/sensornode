@@ -43,7 +43,7 @@ public class SensorManagerTest {
         this.sensorManager.collectData();
 
         for (Sensor sensor : this.sensorManager.getSensorList()) {
-            verify(sensor).startCapturing();
+            verify(sensor).run();
         }
     }
 

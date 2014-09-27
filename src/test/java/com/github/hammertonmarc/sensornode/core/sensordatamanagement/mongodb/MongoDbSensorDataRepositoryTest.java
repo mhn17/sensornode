@@ -19,18 +19,18 @@ import java.util.ArrayList;
 public class MongoDbSensorDataRepositoryTest {
 
     @Mock
-    DBCollection collection = null;
+    private DBCollection collection = null;
 
-    MongoDbSensorDataRepository repository = null;
+    private MongoDbSensorDataRepository repository = null;
 
     @Before
     public void setUp() throws Exception {
-        repository = new MongoDbSensorDataRepository(collection);
+        this.repository = new MongoDbSensorDataRepository(collection);
     }
 
     @After
     public void tearDown() throws Exception {
-        repository = null;
+        this.repository = null;
     }
 
     @Test

@@ -26,6 +26,10 @@ dependencies {
     testCompile "org.mockito:mockito-all:1.9.5"
 }
 
+run {
+    standardInput = System.in
+}
+
 jacoco {
     toolVersion = "0.6.2.201302030002"
     reportsDir = file("$buildDir/codeCoverage")

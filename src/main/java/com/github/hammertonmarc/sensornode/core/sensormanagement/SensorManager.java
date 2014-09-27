@@ -1,5 +1,7 @@
 package com.github.hammertonmarc.sensornode.core.sensormanagement;
 
+import com.github.hammertonmarc.sensornode.core.exceptions.SensorManagementException;
+
 /**
  * Manager for the active sensors.
  * The manager gets the list of active sensors and instructs the sensors to start
@@ -17,16 +19,13 @@ public class SensorManager implements Runnable {
     /**
      * List of all active sensors
      */
-    private SensorList sensorList;
+    private SensorList sensorList = null;
 
     /**
      * Private constructor. Use getInstance to get an instance of the sensor
      * manager.
      */
-    private SensorManager() {
-        SensorRepository repository = SensorRepositoryFactory.getRepository();
-        this.sensorList = repository.getActiveSensors();
-    }
+    private SensorManager() {}
 
     /**
      * Return an instance of the sensor manager
@@ -42,15 +41,26 @@ public class SensorManager implements Runnable {
      */
     @Override
     public void run() {
-        this.collectData();
+        SensorRepository repository;
+        try {
+            repository = SensorRepositoryFactory.getRepository();
+            this.sensorList = repository.getActiveSensors();
+            this.collectData();
+        } catch (SensorManagementException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     /**
      * Instruct all sensors from the sensor list to start collecting data
      */
-    public void collectData() {
+    public void collectData() throws SensorManagementException {
+        if (this.sensorList == null) {
+            throw new SensorManagementException("The sensor list needs to be initialised before " +
+                    "starting the  manager.");
+        }
         for (Sensor sensor : this.sensorList) {
-            sensor.startCapturing();
+            new Thread(sensor).run();
         }
     }
 
