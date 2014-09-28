@@ -6,7 +6,7 @@
     </dummy>
     <webCam>
         <id>2</id>
-        <name>webCam1</name>
+        <name>webCamTest</name>
         <devicePath>/dev/video0</devicePath>
         <width>640</width>
         <height>480</height>

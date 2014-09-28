@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <sensors>
-    <webCam>
-        <id>101</id>
-        <name>webCam1</name>
-        <devicePath>/dev/video0</devicePath>
-        <width>640</width>
-        <height>480</height>
-        <channel>0</channel>
-    </webCam>
+
     <dummy>
         <id>102</id>
         <name>DummySensor1</name>

@@ -14,9 +14,6 @@ repositories {
 }
 
 dependencies {
-    compile 'org.ow2.asm:asm:5.0.3'
-    compile 'com.sun.jersey:jersey-bundle:1.18.1'
-    compile 'javax.ws.rs:jsr311-api:1.1.1'
     compile 'org.mongodb:mongo-java-driver:2.12.3'
     compile ':v4l4j'
     compile 'commons-configuration:commons-configuration:1.10'
