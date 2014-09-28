@@ -21,7 +21,7 @@ public class WebCamSensorTest {
     @Mock
     IWebCamDevice device = null;
 
-    WebCamSensor sensor = null;
+    private WebCamSensor sensor = null;
 
     @Before
     public void setUp() throws Exception {

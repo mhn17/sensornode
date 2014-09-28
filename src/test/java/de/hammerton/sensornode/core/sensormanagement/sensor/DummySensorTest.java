@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
 
 public class DummySensorTest {
 
-    DummySensor sensor = null;
+    private DummySensor sensor = null;
 
     @Before
     public void setUp() throws Exception {

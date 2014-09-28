@@ -8,6 +8,7 @@ import java.util.Calendar;
  * @author Marc Hammerton
  */
 public class SensorData {
+
     protected int sensorId;
     protected String sensorName;
     protected long timestamp;
