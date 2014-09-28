@@ -1,6 +1,5 @@
-package com.github.hammertonmarc.sensornode.core.sensormanagement.sensors;
+package com.github.hammertonmarc.sensornode.core.sensormanagement.sensor;
 
-import com.github.hammertonmarc.sensornode.core.exceptions.SensorManagementException;
 import com.github.hammertonmarc.sensornode.core.sensormanagement.Sensor;
 import java.util.Random;
 

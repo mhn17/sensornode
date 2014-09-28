@@ -1,4 +1,4 @@
-package com.github.hammertonmarc.sensornode.core.sensormanagement.sensors;
+package com.github.hammertonmarc.sensornode.core.sensormanagement.sensor;
 
 import com.github.hammertonmarc.sensornode.core.sensormanagement.Sensor;
 
@@ -16,16 +16,6 @@ public class SensorMock extends Sensor {
     public SensorMock(int id, String name) {
         super(id, name);
     }
-
-    /**
-     * @param id The sensor id
-     * @param name The name of the sensor
-     * @param captureInterval The interval for capturing data
-     */
-    public SensorMock(int id, String name, int captureInterval) {
-        super(id, name, captureInterval);
-    }
-
 
     @Override
     public void close() {

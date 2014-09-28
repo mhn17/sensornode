@@ -1,14 +1,13 @@
 package com.github.hammertonmarc.sensornode.core.sensormanagement.sensorrepository;
 
-import com.github.hammertonmarc.sensornode.core.exceptions.SensorManagementException;
+import com.github.hammertonmarc.sensornode.core.exception.SensorManagementException;
 import com.github.hammertonmarc.sensornode.core.sensormanagement.Sensor;
 import com.github.hammertonmarc.sensornode.core.sensormanagement.SensorList;
 import com.github.hammertonmarc.sensornode.core.sensormanagement.SensorRepository;
-import com.github.hammertonmarc.sensornode.core.sensormanagement.sensors.DummySensor;
-import com.github.hammertonmarc.sensornode.core.sensormanagement.sensors.WebCamSensor;
-import com.github.hammertonmarc.sensornode.core.sensormanagement.sensors.devices.DeviceFactory;
-import com.github.hammertonmarc.sensornode.core.sensormanagement.sensors.devices.IWebCamDevice;
-import com.github.hammertonmarc.sensornode.core.sensormanagement.sensors.devices.WebCamDevice;
+import com.github.hammertonmarc.sensornode.core.sensormanagement.sensor.DummySensor;
+import com.github.hammertonmarc.sensornode.core.sensormanagement.sensor.WebCamSensor;
+import com.github.hammertonmarc.sensornode.core.sensormanagement.sensor.device.DeviceFactory;
+import com.github.hammertonmarc.sensornode.core.sensormanagement.sensor.device.IWebCamDevice;
 import org.apache.commons.configuration.HierarchicalConfiguration;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.github.hammertonmarc.sensornode.core.sensormanagement.sensors;
+package com.github.hammertonmarc.sensornode.core.sensormanagement.sensor;
 
 import org.junit.After;
 import org.junit.Before;

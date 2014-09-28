@@ -2,7 +2,7 @@ package com.github.hammertonmarc.sensornode.core.sensormanagement;
 
 import com.github.hammertonmarc.sensornode.core.sensordatamanagement.SensorData;
 import com.github.hammertonmarc.sensornode.core.sensordatamanagement.SensorDataQueue;
-import com.github.hammertonmarc.sensornode.core.sensormanagement.sensors.SensorMock;
+import com.github.hammertonmarc.sensornode.core.sensormanagement.sensor.SensorMock;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

@@ -1,4 +1,4 @@
-package com.github.hammertonmarc.sensornode.core.exceptions;
+package com.github.hammertonmarc.sensornode.core.exception;
 
 /**
  * General exception for sensor management

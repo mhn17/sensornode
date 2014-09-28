@@ -3,12 +3,15 @@ package com.github.hammertonmarc.sensornode.core.sensordatamanagement;
 import java.util.concurrent.ArrayBlockingQueue;
 
 /**
- * Data queue for sensor data. It buffers the data until it can be stored in the database.
+ * A data queue for sensor data. It buffers the data until it can be stored in the database.
  *
  * @author Marc Hammerton
  */
 public class SensorDataQueue extends ArrayBlockingQueue<SensorData> {
 
+    /**
+     * This element can be added to the queue to indicate it is going to be closed
+     */
     private final SensorData POISON_PILL = new SensorData(1000, "POISON_PILL", new byte[1]);
 
     /**

@@ -1,14 +1,12 @@
 package com.github.hammertonmarc.sensornode.core.sensordatamanagement;
 
 import java.util.Calendar;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * A data transfer object for sensor data
  *
  * @author Marc Hammerton
  */
-@XmlRootElement
 public class SensorData {
     protected int sensorId;
     protected String sensorName;

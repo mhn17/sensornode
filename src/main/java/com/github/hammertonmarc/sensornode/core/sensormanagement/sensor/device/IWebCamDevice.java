@@ -1,4 +1,4 @@
-package com.github.hammertonmarc.sensornode.core.sensormanagement.sensors.devices;
+package com.github.hammertonmarc.sensornode.core.sensormanagement.sensor.device;
 
 import au.edu.jcu.v4l4j.FrameGrabber;
 

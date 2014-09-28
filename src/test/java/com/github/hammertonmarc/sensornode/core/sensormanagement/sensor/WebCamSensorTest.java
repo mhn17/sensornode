@@ -1,10 +1,10 @@
-package com.github.hammertonmarc.sensornode.core.sensormanagement.sensors;
+package com.github.hammertonmarc.sensornode.core.sensormanagement.sensor;
 
 import au.edu.jcu.v4l4j.FrameGrabber;
 import au.edu.jcu.v4l4j.VideoFrame;
 import au.edu.jcu.v4l4j.exceptions.V4L4JException;
-import com.github.hammertonmarc.sensornode.core.exceptions.SensorManagementException;
-import com.github.hammertonmarc.sensornode.core.sensormanagement.sensors.devices.IWebCamDevice;
+import com.github.hammertonmarc.sensornode.core.exception.SensorManagementException;
+import com.github.hammertonmarc.sensornode.core.sensormanagement.sensor.device.IWebCamDevice;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,8 +14,6 @@ import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.awt.image.BufferedImage;
-
-import static org.junit.Assert.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class WebCamSensorTest {

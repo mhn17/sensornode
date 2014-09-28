@@ -1,6 +1,6 @@
 package com.github.hammertonmarc.sensornode.core.sensordatamanagement;
 
-import com.github.hammertonmarc.sensornode.core.exceptions.SensorDataManagementException;
+import com.github.hammertonmarc.sensornode.core.exception.SensorDataManagementException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

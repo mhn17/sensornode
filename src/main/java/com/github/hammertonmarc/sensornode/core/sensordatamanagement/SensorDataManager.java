@@ -1,11 +1,11 @@
 package com.github.hammertonmarc.sensornode.core.sensordatamanagement;
 
-import com.github.hammertonmarc.sensornode.core.exceptions.SensorDataManagementException;
+import com.github.hammertonmarc.sensornode.core.exception.SensorDataManagementException;
 
 /**
  * The SensorDataManager is responsible for getting data from the data queue and adding it to the repository
  *
- *  @author Marc Hammerton
+ * @author Marc Hammerton
  */
 public class SensorDataManager implements Runnable {
 
@@ -74,7 +74,7 @@ public class SensorDataManager implements Runnable {
      * @return The sensor data queue
      */
     public SensorDataQueue getSensorDataQueue() {
-        return sensorDataQueue;
+        return this.sensorDataQueue;
     }
 
     /**

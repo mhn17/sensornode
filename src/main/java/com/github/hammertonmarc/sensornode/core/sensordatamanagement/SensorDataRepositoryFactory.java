@@ -1,6 +1,6 @@
 package com.github.hammertonmarc.sensornode.core.sensordatamanagement;
 
-import com.github.hammertonmarc.sensornode.core.exceptions.SensorDataManagementException;
+import com.github.hammertonmarc.sensornode.core.exception.SensorDataManagementException;
 import com.github.hammertonmarc.sensornode.core.sensordatamanagement.mongodb.MongoDbSensorDataRepository;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -14,6 +14,14 @@ import java.net.UnknownHostException;
  * @author Marc Hammerton
  */
 public class SensorDataRepositoryFactory {
+
+    /**
+     * MongoDb configuration values
+     */
+    private final static String HOST = "localhost";
+    private final static int PORT = 27017;
+    private final static String DB = "sensorNode";
+    private final static String COLLECTION = "sensorData";
 
     /**
      * Return a SensorDataRepository
@@ -37,8 +45,8 @@ public class SensorDataRepositoryFactory {
      * @throws UnknownHostException
      */
     private static DBCollection getMongoDbCollection() throws UnknownHostException {
-        MongoClient mongoClient = new MongoClient( "localhost" , 27017 );
-        DB db = mongoClient.getDB("sensorNode");
-        return db.getCollection("sensorData");
+        MongoClient mongoClient = new MongoClient(HOST , PORT);
+        DB db = mongoClient.getDB(DB);
+        return db.getCollection(COLLECTION);
     }
 }

@@ -1,8 +1,8 @@
 package com.github.hammertonmarc.sensornode.core.sensormanagement;
 
-import com.github.hammertonmarc.sensornode.core.exceptions.SensorManagementException;
+import com.github.hammertonmarc.sensornode.core.exception.SensorManagementException;
 import com.github.hammertonmarc.sensornode.core.sensormanagement.sensorrepository.XMLSensorRepository;
-import com.github.hammertonmarc.sensornode.core.sensormanagement.sensors.devices.DeviceFactory;
+import com.github.hammertonmarc.sensornode.core.sensormanagement.sensor.device.DeviceFactory;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.XMLConfiguration;
 

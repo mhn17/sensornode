@@ -1,8 +1,7 @@
-package com.github.hammertonmarc.sensornode.core.sensormanagement.sensors.devices;
+package com.github.hammertonmarc.sensornode.core.sensormanagement.sensor.device;
 
-import au.edu.jcu.v4l4j.V4L4JConstants;
 import au.edu.jcu.v4l4j.exceptions.V4L4JException;
-import com.github.hammertonmarc.sensornode.core.exceptions.SensorManagementException;
+import com.github.hammertonmarc.sensornode.core.exception.SensorManagementException;
 
 /**
  * Factory for creating devices

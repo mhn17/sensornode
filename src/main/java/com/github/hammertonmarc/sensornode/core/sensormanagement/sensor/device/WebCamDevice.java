@@ -1,12 +1,10 @@
-package com.github.hammertonmarc.sensornode.core.sensormanagement.sensors.devices;
+package com.github.hammertonmarc.sensornode.core.sensormanagement.sensor.device;
 
 import au.edu.jcu.v4l4j.FrameGrabber;
 import au.edu.jcu.v4l4j.V4L4JConstants;
 import au.edu.jcu.v4l4j.VideoDevice;
 import au.edu.jcu.v4l4j.exceptions.StateException;
 import au.edu.jcu.v4l4j.exceptions.V4L4JException;
-
-import java.util.Arrays;
 
 /**
  * Wrapper class for V4L4J video devices

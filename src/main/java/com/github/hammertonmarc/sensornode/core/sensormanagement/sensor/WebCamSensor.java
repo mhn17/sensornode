@@ -1,11 +1,10 @@
-package com.github.hammertonmarc.sensornode.core.sensormanagement.sensors;
+package com.github.hammertonmarc.sensornode.core.sensormanagement.sensor;
 
 import au.edu.jcu.v4l4j.*;
 import au.edu.jcu.v4l4j.exceptions.V4L4JException;
-import com.github.hammertonmarc.sensornode.core.exceptions.SensorManagementException;
+import com.github.hammertonmarc.sensornode.core.exception.SensorManagementException;
 import com.github.hammertonmarc.sensornode.core.sensormanagement.Sensor;
-import com.github.hammertonmarc.sensornode.core.sensormanagement.sensors.devices.IWebCamDevice;
-import com.github.hammertonmarc.sensornode.core.sensormanagement.sensors.devices.WebCamDevice;
+import com.github.hammertonmarc.sensornode.core.sensormanagement.sensor.device.IWebCamDevice;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

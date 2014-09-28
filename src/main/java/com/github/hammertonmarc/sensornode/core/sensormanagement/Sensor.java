@@ -1,6 +1,6 @@
 package com.github.hammertonmarc.sensornode.core.sensormanagement;
 
-import com.github.hammertonmarc.sensornode.core.exceptions.SensorManagementException;
+import com.github.hammertonmarc.sensornode.core.exception.SensorManagementException;
 import com.github.hammertonmarc.sensornode.core.sensordatamanagement.SensorData;
 import com.github.hammertonmarc.sensornode.core.sensordatamanagement.SensorDataQueue;
 
