@@ -27,7 +27,22 @@ run {
     standardInput = System.in
 }
 
+test {
+    reports.html.destination = "${projectDir}/docs/tests/results"
+}
+
 jacoco {
     toolVersion = "0.6.2.201302030002"
-    reportsDir = file("$buildDir/codeCoverage")
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled false
+        csv.enabled false
+        html.destination "${projectDir}/docs/tests/codeCoverage"
+    }
+}
+
+javadoc {
+    destinationDir = file("${projectDir}/docs/javadoc")
 }
