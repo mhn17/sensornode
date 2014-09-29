@@ -2,7 +2,7 @@ package de.hammerton.sensornode.core.sensormanagement.sensor;
 
 import au.edu.jcu.v4l4j.*;
 import au.edu.jcu.v4l4j.exceptions.V4L4JException;
-import de.hammerton.sensornode.core.exception.SensorManagementException;
+import de.hammerton.sensornode.core.sensormanagement.SensorManagementException;
 import de.hammerton.sensornode.core.sensormanagement.Sensor;
 import de.hammerton.sensornode.core.sensormanagement.sensor.device.IWebCamDevice;
 

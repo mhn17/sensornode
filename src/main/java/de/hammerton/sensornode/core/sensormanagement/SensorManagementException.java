@@ -1,4 +1,4 @@
-package de.hammerton.sensornode.core.exception;
+package de.hammerton.sensornode.core.sensormanagement;
 
 /**
  * General exception for sensor management

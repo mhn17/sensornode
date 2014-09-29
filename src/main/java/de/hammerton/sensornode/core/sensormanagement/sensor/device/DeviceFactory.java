@@ -1,7 +1,7 @@
 package de.hammerton.sensornode.core.sensormanagement.sensor.device;
 
 import au.edu.jcu.v4l4j.exceptions.V4L4JException;
-import de.hammerton.sensornode.core.exception.SensorManagementException;
+import de.hammerton.sensornode.core.sensormanagement.SensorManagementException;
 
 /**
  * Factory for creating devices

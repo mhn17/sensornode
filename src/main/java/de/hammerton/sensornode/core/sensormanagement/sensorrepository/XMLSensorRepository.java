@@ -1,6 +1,6 @@
 package de.hammerton.sensornode.core.sensormanagement.sensorrepository;
 
-import de.hammerton.sensornode.core.exception.SensorManagementException;
+import de.hammerton.sensornode.core.sensormanagement.SensorManagementException;
 import de.hammerton.sensornode.core.sensormanagement.Sensor;
 import de.hammerton.sensornode.core.sensormanagement.SensorList;
 import de.hammerton.sensornode.core.sensormanagement.SensorRepository;

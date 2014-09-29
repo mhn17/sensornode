@@ -3,7 +3,7 @@ package de.hammerton.sensornode.core.sensormanagement.sensor;
 import au.edu.jcu.v4l4j.FrameGrabber;
 import au.edu.jcu.v4l4j.VideoFrame;
 import au.edu.jcu.v4l4j.exceptions.V4L4JException;
-import de.hammerton.sensornode.core.exception.SensorManagementException;
+import de.hammerton.sensornode.core.sensormanagement.SensorManagementException;
 import de.hammerton.sensornode.core.sensormanagement.sensor.device.IWebCamDevice;
 import org.junit.After;
 import org.junit.Before;

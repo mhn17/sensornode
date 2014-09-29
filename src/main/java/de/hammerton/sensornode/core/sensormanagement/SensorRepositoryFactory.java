@@ -1,6 +1,5 @@
 package de.hammerton.sensornode.core.sensormanagement;
 
-import de.hammerton.sensornode.core.exception.SensorManagementException;
 import de.hammerton.sensornode.core.sensormanagement.sensorrepository.XMLSensorRepository;
 import de.hammerton.sensornode.core.sensormanagement.sensor.device.DeviceFactory;
 import org.apache.commons.configuration.ConfigurationException;

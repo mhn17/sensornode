@@ -1,6 +1,5 @@
 package de.hammerton.sensornode.core.sensordatamanagement;
 
-import de.hammerton.sensornode.core.exception.SensorDataManagementException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

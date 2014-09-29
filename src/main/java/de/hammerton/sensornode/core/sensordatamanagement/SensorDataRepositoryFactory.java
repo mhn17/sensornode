@@ -1,6 +1,5 @@
 package de.hammerton.sensornode.core.sensordatamanagement;
 
-import de.hammerton.sensornode.core.exception.SensorDataManagementException;
 import de.hammerton.sensornode.core.sensordatamanagement.mongodb.MongoDbSensorDataRepository;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;

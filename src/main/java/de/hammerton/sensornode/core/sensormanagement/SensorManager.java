@@ -1,7 +1,5 @@
 package de.hammerton.sensornode.core.sensormanagement;
 
-import de.hammerton.sensornode.core.exception.SensorManagementException;
-
 /**
  * Manager for the active sensors.
  * The manager gets the list of active sensors and instructs the sensors to start

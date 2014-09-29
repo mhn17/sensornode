@@ -6,7 +6,7 @@ Description
 SensorNode is one component of a project to build a sensor network. It aims at connecting multiple sensors to a sensor node, and multiple sensor nodes to a server from where the data can be accessed via a web application and/or a mobile application. In this case, sensor can be seen as a broad term. It can be any device that delivers data which can be stored. 
 
 The application has two main components: the sensor management and the sensor data management. 
-The sensor management instantiates and controls the connected sensors. The sensor itself reads data from the hardware device regularely in a specified capture interval and puts it into a data queue.
+The sensor management instantiates and controls the connected sensors. The sensor itself reads data from the hardware device regularly in a specified capture interval and puts it into a data queue.
 The sensor data management is responsible for storing data to and retrieving it from a database, in this case a MongoDB. The data is taken from the data queue to be stored in the database. 
 
 
@@ -54,4 +54,4 @@ Set up
 		
 3. Run application
 	Use "gradle run" to build and run the application.
-	It can be stopped by enterign "q" + <enter>
+	It can be stopped by entering "q" + <enter>

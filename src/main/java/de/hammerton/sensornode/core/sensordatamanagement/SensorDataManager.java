@@ -1,7 +1,5 @@
 package de.hammerton.sensornode.core.sensordatamanagement;
 
-import de.hammerton.sensornode.core.exception.SensorDataManagementException;
-
 /**
  * The SensorDataManager is responsible for getting data from the data queue and adding it to the repository
  *
