@@ -52,6 +52,7 @@ public class WebCamSensor extends Sensor implements CaptureCallback {
      * @see de.hammerton.sensornode.core.sensormanagement.Sensor#startCapturing()
      */
     public synchronized void startCapturing() throws SensorManagementException {
+        System.out.println("WebCamSensor: Starting to capture data for " + this.name);
         try {
             this.device.getCurrentFrameGrabber().setCaptureCallback(this);
             this.device.getCurrentFrameGrabber().startCapture();
@@ -69,7 +70,7 @@ public class WebCamSensor extends Sensor implements CaptureCallback {
      * @see de.hammerton.sensornode.core.sensormanagement.Sensor#close()
      */
     public synchronized void close() {
-        System.out.println("closing web cam");
+        System.out.println("WebCamSensor: Closing " + this.name);
         this.device.releaseAll();
     }
 

@@ -33,7 +33,7 @@ public class DummySensor extends Sensor {
     @Override
     public void close() {
         this.capturing = false;
-        System.out.println("closing dummy sensor");
+        System.out.println("DummySensor: Closing " + this.name);
     }
 
     /**
@@ -41,6 +41,7 @@ public class DummySensor extends Sensor {
      */
     @Override
     public void startCapturing() {
+        System.out.println("DummySensor: Starting to capture data for " + this.name);
         this.capturing = true;
 
         Random random = new Random();
