@@ -3,11 +3,16 @@ SensorNode
 
 Description
 -----------
-SensorNode is one component of a project to build a sensor network. It aims at connecting multiple sensors to a sensor node, and multiple sensor nodes to a server from where the data can be accessed via a web application and/or a mobile application. In this case, sensor can be seen as a broad term. It can be any device that delivers data which can be stored. 
+SensorNode is one component of a project to build a sensor network. It aims at connecting multiple sensors to a sensor
+node, and multiple sensor nodes to a server from where the data can be accessed via a web application and/or a mobile
+application. In this case, sensor can be seen as a broad term. It can be any device that delivers data which can be
+stored.
 
 The application has two main components: the sensor management and the sensor data management. 
-The sensor management instantiates and controls the connected sensors. The sensor itself reads data from the hardware device regularly in a specified capture interval and puts it into a data queue.
-The sensor data management is responsible for storing data to and retrieving it from a database, in this case a MongoDB. The data is taken from the data queue to be stored in the database. 
+The sensor management initiates and controls the connected sensors. The sensor itself reads data from the hardware
+device regularly in a specified capture interval and puts it into a data queue.
+The sensor data management is responsible for storing data to and retrieving it from a database, in this case a MongoDB.
+The data is taken from the data queue to be stored in the database.
 
 
 Dependencies
@@ -18,7 +23,8 @@ Gradle
 
 MongoDB
 	- http://www.mongodb.org/
-	- Needed to store the sensor data. It can be replaced by any other DBMS by implementing the SensorDataRepository and adjusting the SensorDataRepositoryFactory.
+	- Needed to store the sensor data. It can be replaced by any other DBMS by implementing the SensorDataRepository and
+	adjusting the SensorDataRepositoryFactory.
 
 
 v4l4j (Video for Linux for Java)
@@ -42,7 +48,8 @@ Set up
 		    <name>DummySensor1</name>
 		</dummy>
 		
-		Web Cam: a sensor for taking pictures
+		Web Cam: a sensor for taking pictures. (As the application uses v4l4j, web cams are only supported on Unix
+		systems at the moment)
 		<webCam>
 		    <id>102</id>
 		    <name>webCam1</name>
