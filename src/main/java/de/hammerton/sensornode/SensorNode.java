@@ -2,6 +2,8 @@ package de.hammerton.sensornode;
 
 import de.hammerton.sensornode.core.sensordatamanagement.SensorDataManager;
 import de.hammerton.sensornode.core.sensormanagement.SensorManager;
+import de.hammerton.sensornode.server.HttpServer;
+import de.hammerton.sensornode.server.Server;
 
 import java.util.Scanner;
 
@@ -21,6 +23,10 @@ public class SensorNode {
         new Thread(sensorDataManager).start();
         new Thread(sensorManager).start();
 
+        // start server
+        Server server = new HttpServer();
+        new Thread(server).start();
+
         // wait for user action to stop
         System.out.println("########################");
         System.out.println("# SensorNode           #");
@@ -32,6 +38,7 @@ public class SensorNode {
             String line = scanner.nextLine();
             if (line.equals("q")) {
                 System.out.println("Shutting down SensorNode");
+                server.stop();
                 sensorManager.closeAll();
                 sensorDataManager.stop();
                 System.exit(0);

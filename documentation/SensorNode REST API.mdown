@@ -1,0 +1,74 @@
+#REST API: Sensor Node
+**Version: 1**
+**Format: JSON**
+##URI: /sensors
+Allows you to manage sensors
+
+**URL Structure: http://host/sensors**
+###HTTP Method: GET
+**Description:** Allows you to get a list of all sensors
+**Parameters:**
+*No Parameters*
+
+**Example:**
+GET http://host/sensors
+
+**Response Body:**
+    [
+        {
+            "id": "1",
+            "name": "sensor1"
+        },
+        {
+            "id": "2",
+            "name": "sensor2"
+        }
+    ]
+
+##URI: /sensors/:sensor_id
+Allows you to manage a single sensor
+
+**URL Structure: http://host/api/sensors/:sensor_id**
+###HTTP Method: GET
+**Description:** Allows you to get a single sensor
+**Parameters:**
+*No Parameters*
+
+**Example:**
+GET http://host/api/sensors/1
+
+**Response Body:**
+    [
+	    {
+            "id": "1",
+            "name": "sensor1"
+        }
+    ]
+
+##URI: /sensorsData
+Allows you to manage the data collected by the sensors
+
+**URL Structure: http://host/api/sensorsData**
+###HTTP Method: GET
+**Description:** Allows you to get the list of sensor data
+**Parameters:**
+*No Parameters*
+
+**Example:**
+GET http://host/api/sensorsData
+
+**Response Body:**
+    [
+	    {
+            "sensorId": "1",
+            "sensorName": "sensor1",
+            "timestamp": 1425141348,
+            "data": "..."
+        },
+        {
+            "sensorId": "2",
+            "sensorName": "sensor2",
+            "timestamp": 1425141351,
+            "data": "..."
+        }
+    ]
