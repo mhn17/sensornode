@@ -37,6 +37,26 @@ public class MongoDbSensorDataRepository implements SensorDataRepository {
     }
 
     /**
+     * Find all sensor data
+     *
+     * @return The sensor data
+     */
+    @Override
+    public ArrayList<SensorData> find() {
+        ArrayList<SensorData> sensorDataList = new ArrayList<SensorData>();
+
+        DBCursor cursor = this.collection.find();
+
+        while(cursor.hasNext()) {
+            BasicDBObject data = (BasicDBObject) cursor.next();
+            SensorData sensorData = getSensorDataFromDBObject(data);
+            sensorDataList.add(sensorData);
+        }
+
+        return sensorDataList;
+    }
+
+    /**
      * Find sensor data by a sensor ID
      *
      * @param sensorId The sensor ID for which to get the data

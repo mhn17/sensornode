@@ -17,6 +17,13 @@ public interface SensorDataRepository {
     public void add(SensorData sensorData);
 
     /**
+     * Find all sensor data
+     *
+     * @return The sensor data
+     */
+    public ArrayList<SensorData> find();
+
+    /**
      * Find sensor data by a sensor ID
      *
      * @param sensorId The sensor ID for which to get the data
