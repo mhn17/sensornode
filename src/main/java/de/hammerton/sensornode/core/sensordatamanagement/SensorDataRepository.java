@@ -1,6 +1,7 @@
 package de.hammerton.sensornode.core.sensordatamanagement;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 /**
  * Interface for sensor data repositories
@@ -30,4 +31,11 @@ public interface SensorDataRepository {
      * @return The sensor data for the sensor ID
      */
     public ArrayList<SensorData> findBySensorId(int sensorId);
+
+    /**
+     * Remove a single sensor data record
+     *
+     * @param id The sensor data ID
+     */
+    public void remove(UUID id);
 }

@@ -5,6 +5,7 @@ import de.hammerton.sensornode.core.sensordatamanagement.SensorDataRepository;
 import com.mongodb.*;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 /**
  * Sensor data repository using mongoDb
@@ -43,15 +44,21 @@ public class MongoDbSensorDataRepository implements SensorDataRepository {
      */
     @Override
     public ArrayList<SensorData> find() {
-        ArrayList<SensorData> sensorDataList = new ArrayList<SensorData>();
+        ArrayList<SensorData> sensorDataList = new ArrayList<>();
 
-        DBCursor cursor = this.collection.find();
+        try {
+            DBCursor cursor = this.collection.find();
 
-        while(cursor.hasNext()) {
-            BasicDBObject data = (BasicDBObject) cursor.next();
-            SensorData sensorData = getSensorDataFromDBObject(data);
-            sensorDataList.add(sensorData);
+            while(cursor.hasNext()) {
+                BasicDBObject data = (BasicDBObject) cursor.next();
+                SensorData sensorData = getSensorDataFromDBObject(data);
+                sensorDataList.add(sensorData);
+            }
         }
+        catch (Exception e) {
+            System.out.print(e.toString());
+        }
+
 
         return sensorDataList;
     }
@@ -64,7 +71,7 @@ public class MongoDbSensorDataRepository implements SensorDataRepository {
      */
     @Override
     public ArrayList<SensorData> findBySensorId(int sensorId) {
-        ArrayList<SensorData> sensorDataList = new ArrayList<SensorData>();
+        ArrayList<SensorData> sensorDataList = new ArrayList<>();
 
         BasicDBObject query = new BasicDBObject("id", sensorId);
         DBCursor cursor = this.collection.find(query);
@@ -78,6 +85,16 @@ public class MongoDbSensorDataRepository implements SensorDataRepository {
         return sensorDataList;
     }
 
+    @Override
+    public void remove(UUID id) {
+        System.out.println("deleting sensor data: " + id.toString());
+        try {
+            this.collection.remove(new BasicDBObject("id", id.toString()));
+        } catch(Exception e) {
+            System.out.println(e.toString());
+        }
+    }
+
     /**
      * Return a BasicDBObject for sensor data
      *
@@ -85,7 +102,8 @@ public class MongoDbSensorDataRepository implements SensorDataRepository {
      * @return A BasicDBObject based on the sensor data
      */
     private BasicDBObject getBasicDBObject(SensorData sensorData) {
-        return new BasicDBObject("id", sensorData.getSensorId())
+        return new BasicDBObject("id",sensorData.getId().toString())
+                .append("sensorId", sensorData.getSensorId())
                 .append("name", sensorData.getSensorName())
                 .append("timestamp", sensorData.getTimestamp())
                 .append("data", sensorData.getData());
@@ -99,7 +117,8 @@ public class MongoDbSensorDataRepository implements SensorDataRepository {
      */
     private SensorData getSensorDataFromDBObject(BasicDBObject data) {
         return new SensorData(
-                data.getInt("id"),
+                UUID.fromString(data.getString("id")),
+                data.getInt("sensorId"),
                 data.getString("name"),
                 data.getLong("timestamp"),
                 (byte[]) data.get("data"));
