@@ -1,8 +1,9 @@
 package de.hammerton.sensornode.core.sensormanagement.sensor;
 
 import de.hammerton.sensornode.core.sensormanagement.Sensor;
-import java.util.Random;
 
+import java.nio.ByteBuffer;
+//import java.util.Random;
 
 /**
  * DummySensor sensor for testing
@@ -10,6 +11,8 @@ import java.util.Random;
  * @author Marc Hammerton
  */
 public class DummySensor extends Sensor {
+
+    private static long DATA = 0;
 
     private Boolean capturing = false;
 
@@ -44,13 +47,17 @@ public class DummySensor extends Sensor {
         System.out.println("DummySensor: Starting to capture data for " + this.name);
         this.capturing = true;
 
-        Random random = new Random();
-        byte[] randomBytes = new byte[4];
+//        Random random = new Random();
+//        byte[] randomBytes = new byte[4];
 
         while (this.isCapturing()) {
             // set random data
-            random.nextBytes(randomBytes);
-            this.setData(randomBytes);
+//            random.nextBytes(randomBytes);
+//            this.setData(randomBytes);
+
+            DATA++;
+            this.setData(ByteBuffer.allocate(8).putLong(DATA).array());
+
             this.waitForNextCapture();
         }
     }

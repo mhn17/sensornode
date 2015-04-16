@@ -4,6 +4,10 @@
         <id>101</id>
         <name>DummySensor1</name>
     </dummy>
+    <dummy>
+        <id>102</id>
+        <name>DummySensor2</name>
+    </dummy>
     <!--
     <webCam>
         <id>102</id>

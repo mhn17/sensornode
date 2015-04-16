@@ -5,8 +5,6 @@ import de.hammerton.sensornode.core.sensormanagement.SensorManager;
 import de.hammerton.sensornode.server.HttpServer;
 import de.hammerton.sensornode.server.Server;
 
-import java.util.Scanner;
-
 /**
  * Main class for the sensor node
  *
@@ -31,19 +29,6 @@ public class SensorNode {
         System.out.println("########################");
         System.out.println("# SensorNode           #");
         System.out.println("########################");
-        System.out.println("Press <q> to quit");
-
-        Scanner scanner = new Scanner(System.in);
-        while(true) {
-            String line = scanner.nextLine();
-            if (line.equals("q")) {
-                System.out.println("Shutting down SensorNode");
-                server.stop();
-                sensorManager.closeAll();
-                sensorDataManager.stop();
-                System.exit(0);
-            }
-        }
     }
 
 }

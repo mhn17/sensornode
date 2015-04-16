@@ -27,7 +27,7 @@ public abstract class Sensor implements Runnable {
      * @param name The name of the sensor
      */
     public Sensor(int id, String name) {
-        this(id, name, 1000);
+        this(id, name, 3000);
     }
 
     /**
@@ -74,6 +74,15 @@ public abstract class Sensor implements Runnable {
      */
     public String getName() {
         return this.name;
+    }
+
+    /**
+     * Return the interval for capturing data
+     *
+     * @return The capture interval
+     */
+    public int getCaptureInterval() {
+        return this.captureInterval;
     }
 
     /**
