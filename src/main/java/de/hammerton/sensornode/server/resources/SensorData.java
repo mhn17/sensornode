@@ -5,11 +5,10 @@ import de.hammerton.sensornode.core.sensordatamanagement.SensorDataManagementExc
 import de.hammerton.sensornode.core.sensordatamanagement.SensorDataRepository;
 import de.hammerton.sensornode.core.sensordatamanagement.SensorDataRepositoryFactory;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
+import java.util.UUID;
 
 @Path("/sensorData")
 public class SensorData {
@@ -25,10 +24,14 @@ public class SensorData {
     }
 
     @GET
-    @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
     public ArrayList<de.hammerton.sensornode.core.sensordatamanagement.SensorData> list() {
         return this.sensorDataRepository.find();
     }
 
+    @DELETE
+    @Path("/{id}")
+    public void delete(@PathParam("id") String id) {
+        this.sensorDataRepository.remove(UUID.fromString(id));
+    }
 }

@@ -2,6 +2,7 @@ package de.hammerton.sensornode.server.resources;
 
 import de.hammerton.sensornode.core.sensormanagement.Sensor;
 import de.hammerton.sensornode.core.sensormanagement.SensorManager;
+import de.hammerton.sensornode.server.dto.SensorDto;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -20,19 +21,24 @@ public class Sensors {
     }
 
     @GET
-    @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
-    public ArrayList<Sensor> list() {
-        return this.sensorManager.getSensorList();
+    public ArrayList<SensorDto> list() {
+        ArrayList<SensorDto> sensors = new ArrayList<>();
+
+        for (Sensor sensor : this.sensorManager.getSensorList()) {
+            sensors.add(new SensorDto(sensor));
+        }
+
+        return sensors;
     }
 
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Sensor get(@PathParam("id") long id) {
+    public SensorDto get(@PathParam("id") long id) {
         for (Sensor sensor : this.sensorManager.getSensorList()) {
             if (sensor.getId() == id) {
-                return sensor;
+                return new SensorDto(sensor);
             }
         }
 
