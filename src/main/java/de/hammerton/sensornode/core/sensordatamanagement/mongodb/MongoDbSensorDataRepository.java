@@ -33,7 +33,7 @@ public class MongoDbSensorDataRepository implements SensorDataRepository {
      */
     @Override
     public void add(SensorData sensorData) {
-        BasicDBObject data = getBasicDBObject(sensorData);
+        BasicDBObject data = this.getBasicDBObjectFromSensorData(sensorData);
         this.collection.insert(data);
     }
 
@@ -46,19 +46,13 @@ public class MongoDbSensorDataRepository implements SensorDataRepository {
     public ArrayList<SensorData> find() {
         ArrayList<SensorData> sensorDataList = new ArrayList<>();
 
-        try {
-            DBCursor cursor = this.collection.find();
+        DBCursor cursor = this.collection.find();
 
-            while(cursor.hasNext()) {
-                BasicDBObject data = (BasicDBObject) cursor.next();
-                SensorData sensorData = getSensorDataFromDBObject(data);
-                sensorDataList.add(sensorData);
-            }
+        while(cursor.hasNext()) {
+            BasicDBObject data = (BasicDBObject) cursor.next();
+            SensorData sensorData = this.getSensorDataFromDBObject(data);
+            sensorDataList.add(sensorData);
         }
-        catch (Exception e) {
-            System.out.print(e.toString());
-        }
-
 
         return sensorDataList;
     }
@@ -78,21 +72,22 @@ public class MongoDbSensorDataRepository implements SensorDataRepository {
 
         while(cursor.hasNext()) {
             BasicDBObject data = (BasicDBObject) cursor.next();
-            SensorData sensorData = getSensorDataFromDBObject(data);
+            SensorData sensorData = this.getSensorDataFromDBObject(data);
             sensorDataList.add(sensorData);
         }
 
         return sensorDataList;
     }
 
+    /**
+     * Remove sensor data from the repository identified by its identifier
+     *
+     * @param id The sensor data ID
+     */
     @Override
     public void remove(UUID id) {
         System.out.println("deleting sensor data: " + id.toString());
-        try {
-            this.collection.remove(new BasicDBObject("id", id.toString()));
-        } catch(Exception e) {
-            System.out.println(e.toString());
-        }
+        this.collection.remove(new BasicDBObject("id", id.toString()));
     }
 
     /**
@@ -101,7 +96,7 @@ public class MongoDbSensorDataRepository implements SensorDataRepository {
      * @param sensorData The sensor data which should be converted into a BasicDBObject
      * @return A BasicDBObject based on the sensor data
      */
-    private BasicDBObject getBasicDBObject(SensorData sensorData) {
+    private BasicDBObject getBasicDBObjectFromSensorData(SensorData sensorData) {
         return new BasicDBObject("id",sensorData.getId().toString())
                 .append("sensorId", sensorData.getSensorId())
                 .append("name", sensorData.getSensorName())
