@@ -14,6 +14,7 @@ import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MongoDbSensorDataRepositoryTest {
@@ -36,6 +37,7 @@ public class MongoDbSensorDataRepositoryTest {
     @Test
     public void testAdd() throws Exception {
         SensorData sensorData = Mockito.mock(SensorData.class);
+        Mockito.stub(sensorData.getId()).toReturn(UUID.randomUUID());
         this.repository.add(sensorData);
 
         Mockito.verify(this.collection).insert(Mockito.any(BasicDBObject.class));
@@ -43,7 +45,8 @@ public class MongoDbSensorDataRepositoryTest {
 
     @Test
     public void testFindBySensorId() throws Exception {
-        BasicDBObject result = new BasicDBObject("id", 5)
+        BasicDBObject result = new BasicDBObject("id", UUID.randomUUID())
+                .append("sensorId", 5)
                 .append("name", "sensorName")
                 .append("timestamp", 1)
                 .append("data", new byte[4]);

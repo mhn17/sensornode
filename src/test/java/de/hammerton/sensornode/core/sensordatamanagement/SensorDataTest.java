@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Calendar;
+import java.util.UUID;
 
 import static org.junit.Assert.*;
 
@@ -18,7 +19,7 @@ public class SensorDataTest {
 
     @Before
     public void setUp() throws Exception {
-        this.sensorData = new SensorData(this.sensorId, this.name, this.timestamp, this.data);
+        this.sensorData = new SensorData(UUID.randomUUID(), this.sensorId, this.name, this.timestamp, this.data);
     }
 
     @After
