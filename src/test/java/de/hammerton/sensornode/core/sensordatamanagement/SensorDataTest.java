@@ -12,6 +12,7 @@ import static org.junit.Assert.*;
 public class SensorDataTest {
 
     private SensorData sensorData = null;
+    private UUID id = UUID.randomUUID();
     private int sensorId = 1;
     private String name = "sensorName";
     private long timestamp = 1000;
@@ -19,12 +20,17 @@ public class SensorDataTest {
 
     @Before
     public void setUp() throws Exception {
-        this.sensorData = new SensorData(UUID.randomUUID(), this.sensorId, this.name, this.timestamp, this.data);
+        this.sensorData = new SensorData(this.id, this.sensorId, this.name, this.timestamp, this.data);
     }
 
     @After
     public void tearDown() throws Exception {
         this.sensorData = null;
+    }
+
+    @Test
+    public void testGetId() throws Exception {
+        assertEquals(this.id, this.sensorData.getId());
     }
 
     @Test

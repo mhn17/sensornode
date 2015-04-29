@@ -17,8 +17,8 @@ public class SensorDataManager implements Runnable {
     @Override
     public void run() {
         try {
-            this.sensorDataQueue = SensorDataQueue.getInstance();
-            this.repository = SensorDataRepositoryFactory.getRepository();
+            this.initSensorDataQueue();
+            this.initRepository();
             this.start();
         } catch (SensorDataManagementException e) {
             System.out.println(e.getMessage());
@@ -91,5 +91,23 @@ public class SensorDataManager implements Runnable {
      */
     public SensorDataRepository getRepository() {
         return this.repository;
+    }
+
+    /**
+     * Set the sensor data queue to default when it is not already set
+     */
+    protected void initSensorDataQueue() {
+        if (this.sensorDataQueue == null) {
+            this.sensorDataQueue = SensorDataQueue.getInstance();
+        }
+    }
+
+    /**
+     * Set the repository to default when it is not already set
+     */
+    protected void initRepository() throws SensorDataManagementException {
+        if (this.repository == null) {
+            this.repository = SensorDataRepositoryFactory.getRepository();
+        }
     }
 }

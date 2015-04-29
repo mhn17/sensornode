@@ -9,9 +9,18 @@ import static org.junit.Assert.assertThat;
  * @author Marc Hammerton
  */
 public class SensorRepositoryFactoryTest {
+
     @Test
     public void testGetRepository() throws Exception {
         assertThat(SensorRepositoryFactory.getRepository(),
                 instanceOf(SensorRepository.class));
     }
+
+    @Test(expected = SensorManagementException.class)
+    public void testGetRepositoryWithWrongConfigurationFile() throws SensorManagementException{
+        SensorRepositoryFactory.configurationFile = "noFile.xml";
+        SensorRepositoryFactory.getRepository();
+    }
+
+
 }

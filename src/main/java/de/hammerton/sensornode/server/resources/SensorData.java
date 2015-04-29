@@ -34,4 +34,8 @@ public class SensorData {
     public void delete(@PathParam("id") String id) {
         this.sensorDataRepository.remove(UUID.fromString(id));
     }
+
+    public void setSensorDataRepository(SensorDataRepository sensorDataRepository) {
+        this.sensorDataRepository = sensorDataRepository;
+    }
 }

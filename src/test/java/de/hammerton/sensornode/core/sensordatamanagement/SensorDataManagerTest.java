@@ -34,6 +34,16 @@ public class SensorDataManagerTest {
     }
 
     @Test
+    public void testRun() throws Exception {
+        SensorDataManager managerSpy = Mockito.spy(this.manager);
+        managerSpy.run();
+
+        Mockito.verify(managerSpy).start();
+        assertNotNull(managerSpy.getSensorDataQueue());
+        assertNotNull(managerSpy.getRepository());
+    }
+
+    @Test
     public void testStart() throws Exception {
         SensorData sensorData = Mockito.mock(SensorData.class);
         Mockito.when(this.sensorDataQueue.take())

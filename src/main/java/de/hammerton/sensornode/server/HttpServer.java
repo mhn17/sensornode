@@ -9,28 +9,36 @@ public class HttpServer implements Server {
     // ToDo refactor base URI
     static final String BASE_URI = "http://localhost:9999/sensornode";
 
-    com.sun.net.httpserver.HttpServer server = null;
-
-    public HttpServer() {
-        try {
-            server = HttpServerFactory.create(BASE_URI);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+    com.sun.net.httpserver.HttpServer serverInstance = null;
 
     @Override
     public void start() {
-        server.start();
+        this.getServerInstance().start();
     }
 
     @Override
     public void stop() {
-        server.stop(0);
+        this.serverInstance.stop(0);
     }
 
     @Override
     public void run() {
         this.start();
+    }
+
+    public void setServerInstance(com.sun.net.httpserver.HttpServer serverInstance) {
+        this.serverInstance = serverInstance;
+    }
+
+    public com.sun.net.httpserver.HttpServer getServerInstance() {
+        if (this.serverInstance == null) {
+            try {
+                this.serverInstance = HttpServerFactory.create(BASE_URI);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return this.serverInstance;
     }
 }

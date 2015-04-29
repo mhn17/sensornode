@@ -40,4 +40,18 @@ public class DummySensorTest {
     public void testIsCapturing() throws Exception {
         assertFalse(this.sensor.isCapturing());
     }
+
+    @Test
+    public void testGetCaptureInterval() throws Exception {
+        assertEquals(10, this.sensor.getCaptureInterval());
+    }
+
+    @Test
+    public void testRun() throws Exception {
+        DummySensor spySensor = Mockito.spy(this.sensor);
+
+        Mockito.when(spySensor.isCapturing()).thenReturn(false);
+        spySensor.run();
+        Mockito.verify(spySensor).startCapturing();
+    }
 }

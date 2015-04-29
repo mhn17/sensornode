@@ -14,14 +14,14 @@ public class SensorDto {
     }
 
     public int getId() {
-        return id;
+        return this.id;
     }
 
     public int getCaptureInterval() {
-        return captureInterval;
+        return this.captureInterval;
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 }

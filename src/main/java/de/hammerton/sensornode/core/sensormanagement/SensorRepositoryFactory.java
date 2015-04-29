@@ -12,6 +12,8 @@ import org.apache.commons.configuration.XMLConfiguration;
  */
 public class SensorRepositoryFactory {
 
+    public static String configurationFile = "sensors.xml";
+
     /**
      * Returns a sensor repository
      *
@@ -19,10 +21,10 @@ public class SensorRepositoryFactory {
      */
     public static SensorRepository getRepository() throws SensorManagementException {
         try {
-            return new XMLSensorRepository(new XMLConfiguration("sensors.xml"), new DeviceFactory());
+            return new XMLSensorRepository(new XMLConfiguration(configurationFile),
+                    new DeviceFactory());
         } catch (ConfigurationException e) {
             throw new SensorManagementException("Could not create XMLConfiguration");
         }
     }
-
 }

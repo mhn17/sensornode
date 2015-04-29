@@ -45,4 +45,7 @@ public class Sensors {
         return null;
     }
 
+    public void setSensorManager(SensorManager sensorManager) {
+        this.sensorManager = sensorManager;
+    }
 }

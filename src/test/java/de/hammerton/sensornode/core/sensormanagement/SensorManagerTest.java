@@ -4,6 +4,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
@@ -64,11 +65,19 @@ public class SensorManagerTest {
     }
 
     @Test
-    public void closeAll() throws Exception {
+    public void testCloseAll() throws Exception {
         this.sensorManager.closeAll();
 
         for (Sensor sensor : this.sensorManager.getSensorList()) {
             verify(sensor).close();
         }
+    }
+
+    @Test
+    public void testRun() throws Exception {
+        SensorManager spySensorManager = Mockito.spy(this.sensorManager);
+
+        spySensorManager.run();
+        Mockito.verify(spySensorManager).collectData();
     }
 }
