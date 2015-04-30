@@ -34,12 +34,15 @@ v4l4j (Video for Linux for Java)
 
 Set up
 ------
-1. Set up MongoDB
+1. Add v4lvj library
+	Add the v4l4j.jar to the lib folder
+
+2. Set up MongoDB
 	Install MongoDB and create a database and collection with following values:
 		- database => "sensorNode"
 		- collection => "sensorData"
 		
-2. Configure sensors
+3. Configure sensors
 	Every connected sensor needs to be configured in the sensors.xml file (src/main/resources/sensors.xml)
 	At the moment two types of sensors are implemented:
 		Dummy sensor: a sensor for testing purposes
@@ -59,6 +62,6 @@ Set up
 		    <channel>0</channel>
 		</webCam>
 		
-3. Run application
+4. Run application
 	Use "gradle run" to build and run the application.
 	It can be stopped by entering "q" + <enter>
