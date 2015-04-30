@@ -43,22 +43,24 @@ collection => "sensorData"
 3. Configure sensors  
 Every connected sensor needs to be configured in the sensors.xml file (src/main/resources/sensors.xml)  
 At the moment two types of sensors are implemented:
-		Dummy sensor: a sensor for testing purposes
-		<dummy>
-		    <id>101</id>
-		    <name>DummySensor1</name>
-		</dummy>
+
+	Dummy sensor: a sensor for testing purposes
 		
-		Web Cam: a sensor for taking pictures. (As the application uses v4l4j, web cams are only supported on Unix
-		systems at the moment)
-		<webCam>
-		    <id>102</id>
-		    <name>webCam1</name>
-		    <devicePath>/dev/video0</devicePath>
-		    <width>640</width>
-		    <height>480</height>
-		    <channel>0</channel>
-		</webCam>
+			<dummy>
+				<id>101</id>
+				<name>DummySensor1</name>
+			</dummy>
+	
+	Web Cam: a sensor for taking pictures. (As the application uses v4l4j, web cams are only supported on Unix systems at the moment)
+	
+			<webCam>
+				<id>102</id>
+				<name>webCam1</name>
+				<devicePath>/dev/video0</devicePath>
+				<width>640</width>
+				<height>480</height>
+				<channel>0</channel>
+			</webCam>
 		
 4. Run application  
 Use "gradle run" to build and run the application.
