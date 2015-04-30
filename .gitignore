@@ -1,4 +1,10 @@
 **/.idea
 **/.gradle
-**/.SensorNode.iml
+**/gradle/
+**/gradlew
+**/gradlew.bat
+**/SensorNode.iml
 **/build
+**/out
+**/docs
+**/documentation
