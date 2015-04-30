@@ -17,34 +17,32 @@ The data is taken from the data queue to be stored in the database.
 
 Dependencies
 ------------
-Gradle
-	- http://www.gradle.org/
-	- Gradle is used for managing the dependencies and as build tool
+Gradle  
+- http://www.gradle.org/  
+- Gradle is used for managing the dependencies and as build tool
 
-MongoDB
-	- http://www.mongodb.org/
-	- Needed to store the sensor data. It can be replaced by any other DBMS by implementing the SensorDataRepository and
-	adjusting the SensorDataRepositoryFactory.
+MongoDB  
+- http://www.mongodb.org/  
+- Needed to store the sensor data. It can be replaced by any other DBMS by implementing the SensorDataRepository and adjusting the SensorDataRepositoryFactory.
 
-
-v4l4j (Video for Linux for Java)
-	- https://code.google.com/p/v4l4j/
-	- Needed to access a web cam.
+v4l4j (Video for Linux for Java)  
+- https://code.google.com/p/v4l4j/  
+- Needed to access a web cam.
 
 
 Set up
 ------
-1. Add v4lvj library
-	Add the v4l4j.jar to the lib folder
+1. Add v4lvj library  
+Add the v4l4j.jar to the lib folder
 
-2. Set up MongoDB
-	Install MongoDB and create a database and collection with following values:
-		- database => "sensorNode"
-		- collection => "sensorData"
+2. Set up MongoDB  
+Install MongoDB and create a database and collection with following values:  
+database => "sensorNode"  
+collection => "sensorData"
 		
-3. Configure sensors
-	Every connected sensor needs to be configured in the sensors.xml file (src/main/resources/sensors.xml)
-	At the moment two types of sensors are implemented:
+3. Configure sensors  
+Every connected sensor needs to be configured in the sensors.xml file (src/main/resources/sensors.xml)  
+At the moment two types of sensors are implemented:
 		Dummy sensor: a sensor for testing purposes
 		<dummy>
 		    <id>101</id>
@@ -62,6 +60,5 @@ Set up
 		    <channel>0</channel>
 		</webCam>
 		
-4. Run application
-	Use "gradle run" to build and run the application.
-	It can be stopped by entering "q" + <enter>
+4. Run application  
+Use "gradle run" to build and run the application.
