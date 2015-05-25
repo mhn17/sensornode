@@ -14,13 +14,12 @@ public class SensorDataTest {
     private SensorData sensorData = null;
     private UUID id = UUID.randomUUID();
     private int sensorId = 1;
-    private String name = "sensorName";
     private long timestamp = 1000;
     private byte[] data = "data".getBytes();
 
     @Before
     public void setUp() throws Exception {
-        this.sensorData = new SensorData(this.id, this.sensorId, this.name, this.timestamp, this.data);
+        this.sensorData = new SensorData(this.id, this.sensorId, this.timestamp, this.data);
     }
 
     @After
@@ -39,18 +38,13 @@ public class SensorDataTest {
     }
 
     @Test
-    public void testGetSensorName() throws Exception {
-        assertEquals(this.name, this.sensorData.getSensorName());
-    }
-
-    @Test
     public void testGetTimestamp() throws Exception {
         assertEquals(this.timestamp, this.sensorData.getTimestamp());
     }
 
     @Test
     public void testGetTimestampUsingCurrent() throws Exception {
-        SensorData sensorData = new SensorData(this.sensorId, this.name, this.data);
+        SensorData sensorData = new SensorData(this.sensorId, this.data);
 
         long timestamp = Calendar.getInstance().getTime().getTime();
         assertTrue(timestamp >= sensorData.getTimestamp());

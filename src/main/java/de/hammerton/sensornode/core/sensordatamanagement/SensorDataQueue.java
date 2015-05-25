@@ -12,7 +12,7 @@ public class SensorDataQueue extends ArrayBlockingQueue<SensorData> {
     /**
      * This element can be added to the queue to indicate it is going to be closed
      */
-    private final SensorData POISON_PILL = new SensorData(1000, "POISON_PILL", new byte[1]);
+    private final SensorData POISON_PILL = new SensorData(99999999, new byte[1]);
 
     /**
      * The maximum number of elements in the queue

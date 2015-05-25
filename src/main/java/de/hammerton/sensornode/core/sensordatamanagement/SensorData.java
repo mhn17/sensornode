@@ -11,7 +11,6 @@ public class SensorData {
 
     protected UUID id;
     protected int sensorId;
-    protected String sensorName;
     protected long timestamp;
     protected byte[] data;
 
@@ -19,13 +18,11 @@ public class SensorData {
      * Constructor
      *  - creates a new id
      *  - set the timestamp to the current time
-     *
      * @param sensorId The sensor ID
-     * @param sensorName The sensor name
      * @param data The sensor data
      */
-    public SensorData (int sensorId, String sensorName, byte[] data) {
-        this(UUID.randomUUID(), sensorId, sensorName, System.currentTimeMillis() / 1000L, data);
+    public SensorData(int sensorId, byte[] data) {
+        this(UUID.randomUUID(), sensorId, System.currentTimeMillis() / 1000L, data);
     }
 
 
@@ -33,16 +30,13 @@ public class SensorData {
      * Constructor
      *  - sets the id to a specific id
      *  - sets the timestamp to a specific time
-     *
-     * @param sensorId The sensor ID
-     * @param sensorName The sensor name
+     *  @param sensorId The sensor ID
      * @param timestamp The time when the data was read
      * @param data The sensor data
      */
-    public SensorData (UUID id, int sensorId, String sensorName, long timestamp, byte[] data) {
+    public SensorData(UUID id, int sensorId, long timestamp, byte[] data) {
         this.id = id;
         this.sensorId = sensorId;
-        this.sensorName = sensorName;
         this.timestamp = timestamp;
         this.data = data;
     }
@@ -63,15 +57,6 @@ public class SensorData {
      */
     public int getSensorId() {
         return sensorId;
-    }
-
-    /**
-     * Returns the sensor name
-     *
-     * @return The sensor name
-     */
-    public String getSensorName() {
-        return sensorName;
     }
 
     /**

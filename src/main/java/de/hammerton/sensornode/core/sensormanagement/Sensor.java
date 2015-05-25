@@ -104,7 +104,7 @@ public abstract class Sensor implements Runnable {
         this.data = data;
 
         if (this.sensorDataQueue != null) {
-            SensorData sensorData = new SensorData(this.id, this.name, this.data);
+            SensorData sensorData = new SensorData(this.id, this.data);
             try {
                 this.sensorDataQueue.put(sensorData);
             } catch (InterruptedException e) {

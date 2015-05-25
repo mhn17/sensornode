@@ -99,7 +99,6 @@ public class MongoDbSensorDataRepository implements SensorDataRepository {
     private BasicDBObject getBasicDBObjectFromSensorData(SensorData sensorData) {
         return new BasicDBObject("id",sensorData.getId().toString())
                 .append("sensorId", sensorData.getSensorId())
-                .append("name", sensorData.getSensorName())
                 .append("timestamp", sensorData.getTimestamp())
                 .append("data", sensorData.getData());
     }
@@ -114,7 +113,6 @@ public class MongoDbSensorDataRepository implements SensorDataRepository {
         return new SensorData(
                 UUID.fromString(data.getString("id")),
                 data.getInt("sensorId"),
-                data.getString("name"),
                 data.getLong("timestamp"),
                 (byte[]) data.get("data"));
     }

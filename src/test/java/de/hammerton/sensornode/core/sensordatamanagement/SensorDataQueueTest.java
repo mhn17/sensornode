@@ -14,6 +14,6 @@ public class SensorDataQueueTest {
     @Test
     public void testGetPoisonPill() throws Exception {
         SensorData poisonPill = SensorDataQueue.getInstance().getPoisonPill();
-        assertEquals("POISON_PILL", poisonPill.getSensorName());
+        assertEquals(99999999, poisonPill.getSensorId());
     }
 }
