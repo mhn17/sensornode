@@ -4,10 +4,14 @@ import de.hammerton.sensornode.core.sensormanagement.SensorManagementException;
 import de.hammerton.sensornode.core.sensormanagement.Sensor;
 import de.hammerton.sensornode.core.sensormanagement.SensorList;
 import de.hammerton.sensornode.core.sensormanagement.SensorRepository;
-import de.hammerton.sensornode.core.sensormanagement.sensor.DummySensor;
+import de.hammerton.sensornode.core.sensormanagement.sensor.BasicSensor;
+import de.hammerton.sensornode.core.sensormanagement.sensor.device.DummyDevice;
 import de.hammerton.sensornode.core.sensormanagement.sensor.WebCamSensor;
 import de.hammerton.sensornode.core.sensormanagement.sensor.device.DeviceFactory;
+import de.hammerton.sensornode.core.sensormanagement.sensor.device.IBasicDevice;
 import de.hammerton.sensornode.core.sensormanagement.sensor.device.IWebCamDevice;
+import de.hammerton.sensornode.core.sensormanagement.sensor.device.adapter.IStringAdapter;
+import de.hammerton.sensornode.core.sensormanagement.sensor.device.adapter.TemperatureStringAdapter;
 import org.apache.commons.configuration.HierarchicalConfiguration;
 
 import java.util.List;
@@ -59,34 +63,83 @@ public class XMLSensorRepository implements SensorRepository {
         List<HierarchicalConfiguration> webCams = this.config.configurationsAt("webCam");
         this.createWebCams(webCams);
 
-        // get dummy sensors
-        List<HierarchicalConfiguration> dummySensors = this.config.configurationsAt("dummy");
-        this.createDummySensors(dummySensors);
+        // get basic sensors
+        List<HierarchicalConfiguration> basicSensors = this.config.configurationsAt("basic");
+        this.createBasicSensors(basicSensors);
     }
 
     /**
-     * Create dummy sensors and add to sensor list
+     * Create basic sensors and add to sensor list
      *
-     * @param dummySensors hierarchical configuration list of dummy sensors
+     * @param basicConfigurations hierarchical configuration list of dummy sensors
      */
-    private void createDummySensors(List<HierarchicalConfiguration> dummySensors) {
-       for (HierarchicalConfiguration dummy : dummySensors) {
-            Sensor sensor = new DummySensor(
-                    dummy.getInt("id"),
-                    dummy.getString("name")
+    private void createBasicSensors(List<HierarchicalConfiguration> basicConfigurations) {
+        for (HierarchicalConfiguration basicSensor : basicConfigurations) {
+            IBasicDevice device = this.createBasicDevice(basicSensor.configurationAt("device"));
+
+            Sensor sensor = new BasicSensor(
+                    basicSensor.getInt("id"),
+                    basicSensor.getString("name"),
+                    device
             );
 
             this.sensorList.add(sensor);
         }
     }
 
+    private IBasicDevice createBasicDevice(HierarchicalConfiguration deviceConfiguration) {
+        IBasicDevice device = null;
+        String type = deviceConfiguration.getRoot().getAttributes("type").get(0).getValue().toString();
+
+        switch (type) {
+            case "file":
+                IStringAdapter adapter = this.createStringAdapter(
+                        deviceConfiguration.configurationAt("adapter")
+                );
+
+                try {
+                    device = this.deviceFactory.getFileDevice(
+                            deviceConfiguration.getString("path"),
+                            adapter
+                    );
+                } catch (SensorManagementException e) {
+                    System.out.println("Could not add basic file sensor to list:");
+                    System.out.println(e.getMessage());
+                }
+
+                break;
+            case "dummy":
+                device = this.deviceFactory.getDummyDevice();
+                break;
+        }
+
+        return device;
+    }
+
+    /**
+     * Create a string adapter
+     *
+     * @param adapterConfiguration The adapter configuration
+     * @return A new string adapter
+     */
+    private IStringAdapter createStringAdapter(HierarchicalConfiguration adapterConfiguration) {
+        String type = adapterConfiguration.getRoot().getAttributes("type").get(0).getValue().toString();
+
+        switch (type) {
+            case "temperature":
+                return new TemperatureStringAdapter();
+            default:
+                return null;
+        }
+    }
+
     /**
      * Create web cams and add to sensor list
      *
-     * @param webCams hierarchical configuration list of web cams
+     * @param webCamConfigurations hierarchical configuration list of web cams
      */
-    private void createWebCams(List<HierarchicalConfiguration> webCams) {
-        for (HierarchicalConfiguration webCam : webCams) {
+    private void createWebCams(List<HierarchicalConfiguration> webCamConfigurations) {
+        for (HierarchicalConfiguration webCam : webCamConfigurations) {
             try {
                 IWebCamDevice device = this.deviceFactory.getWebCamDevice(
                         webCam.getString("devicePath"),

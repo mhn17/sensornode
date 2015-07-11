@@ -29,7 +29,7 @@ public class WebCamSensor extends Sensor implements CaptureCallback {
 
      */
     public WebCamSensor(int id, String name, IWebCamDevice device) {
-        super(id, name);
+        super(id, name, device);
         this.device = device;
     }
 
@@ -42,7 +42,7 @@ public class WebCamSensor extends Sensor implements CaptureCallback {
      * @param device The web cam device
      */
     public WebCamSensor(int id, String name, int captureInterval, IWebCamDevice device) {
-        super(id, name, captureInterval);
+        super(id, name, captureInterval, device);
         this.device = device;
     }
 
@@ -70,8 +70,7 @@ public class WebCamSensor extends Sensor implements CaptureCallback {
      * @see de.hammerton.sensornode.core.sensormanagement.Sensor#close()
      */
     public synchronized void close() {
-        System.out.println("WebCamSensor: Closing " + this.name);
-        this.device.releaseAll();
+
     }
 
     /**

@@ -58,16 +58,6 @@ public class WebCamSensorTest {
     }
 
     @Test
-    public void testClose() throws Exception {
-        WebCamSensor spySensor = Mockito.spy(this.sensor);
-
-        Mockito.doNothing().when(this.device).releaseAll();
-        spySensor.close();
-
-        Mockito.verify(this.device).releaseAll();
-    }
-
-    @Test
     public void testNextFrame() throws Exception {
         BufferedImage bi = new BufferedImage(10,10,BufferedImage.TYPE_INT_RGB);
         VideoFrame frame = Mockito.mock(VideoFrame.class);

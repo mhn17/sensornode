@@ -1,7 +1,7 @@
 package de.hammerton.sensornode.core.sensormanagement.sensorrepository;
 
 import de.hammerton.sensornode.core.sensormanagement.SensorList;
-import de.hammerton.sensornode.core.sensormanagement.sensor.DummySensor;
+import de.hammerton.sensornode.core.sensormanagement.sensor.BasicSensor;
 import de.hammerton.sensornode.core.sensormanagement.sensor.WebCamSensor;
 import de.hammerton.sensornode.core.sensormanagement.sensor.device.DeviceFactory;
 import de.hammerton.sensornode.core.sensormanagement.sensor.device.IWebCamDevice;
@@ -43,9 +43,10 @@ public class XMLSensorRepositoryTest {
 
         SensorList activeSensors = this.repository.getActiveSensors();
         assertTrue(activeSensors != null);
-        assertTrue(activeSensors.size() == 2);
+        assertTrue(activeSensors.size() == 3);
 
         assertEquals(WebCamSensor.class, activeSensors.get(0).getClass());
-        assertEquals(DummySensor.class, activeSensors.get(1).getClass());
+        assertEquals(BasicSensor.class, activeSensors.get(1).getClass());
+        assertEquals(BasicSensor.class, activeSensors.get(2).getClass());
     }
 }

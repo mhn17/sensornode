@@ -48,7 +48,9 @@ public class SensorManager implements Runnable {
     @Override
     public void run() {
         try {
-            this.sensorList = this.sensorRepository.getActiveSensors();
+            if (this.sensorList == null) {
+                this.sensorList = this.sensorRepository.getActiveSensors();
+            }
             this.collectData();
         } catch (SensorManagementException e) {
             System.out.println(e.getMessage());

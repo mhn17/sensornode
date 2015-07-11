@@ -1,5 +1,6 @@
 package de.hammerton.sensornode.core.sensormanagement.sensor;
 
+import de.hammerton.sensornode.core.sensormanagement.sensor.device.IBasicDevice;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -7,13 +8,16 @@ import org.mockito.Mockito;
 
 import static org.junit.Assert.*;
 
-public class DummySensorTest {
+/**
+ * @author Marc Hammerton
+ */
+public class BasicSensorTest {
 
-    private DummySensor sensor = null;
+    private BasicSensor sensor = null;
 
     @Before
     public void setUp() throws Exception {
-        this.sensor = new DummySensor(1, "sensor", 10);
+        this.sensor = new BasicSensor(1, "sensor", 10, Mockito.mock(IBasicDevice.class));
     }
 
     @After
@@ -29,7 +33,7 @@ public class DummySensorTest {
 
     @Test
     public void testStartCapturing() throws Exception {
-        DummySensor spySensor = Mockito.spy(this.sensor);
+        BasicSensor spySensor = Mockito.spy(this.sensor);
 
         Mockito.when(spySensor.isCapturing()).thenReturn(true).thenReturn(false);
         spySensor.startCapturing();
@@ -48,7 +52,7 @@ public class DummySensorTest {
 
     @Test
     public void testRun() throws Exception {
-        DummySensor spySensor = Mockito.spy(this.sensor);
+        BasicSensor spySensor = Mockito.spy(this.sensor);
 
         Mockito.when(spySensor.isCapturing()).thenReturn(false);
         spySensor.run();

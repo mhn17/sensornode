@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <sensors>
-    <dummy>
+    <basic>
         <id>1</id>
         <name>DummySensor1</name>
-    </dummy>
+        <device type="dummy"/>
+    </basic>
     <webCam>
         <id>2</id>
         <name>webCamTest</name>
@@ -12,4 +13,12 @@
         <height>480</height>
         <channel>0</channel>
     </webCam>
+    <basic>
+        <id>3</id>
+        <name>FileSensor1</name>
+        <device type="file">
+            <path>temperature.txt</path>
+            <adapter type="temperature"/>
+        </device>
+    </basic>
 </sensors>

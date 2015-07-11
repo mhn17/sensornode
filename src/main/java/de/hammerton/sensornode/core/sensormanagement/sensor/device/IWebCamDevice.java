@@ -7,17 +7,12 @@ import au.edu.jcu.v4l4j.FrameGrabber;
  *
  * @author Marc Hammerton
  */
-public interface IWebCamDevice {
+public interface IWebCamDevice extends IDevice {
 
     /**
      * Get the current frame grabber for the device
      *
      * @return The current frame grabber
      */
-    public FrameGrabber getCurrentFrameGrabber();
-
-    /**
-     * Release the device and the frame grabber
-     */
-    public void releaseAll();
+    FrameGrabber getCurrentFrameGrabber();
 }

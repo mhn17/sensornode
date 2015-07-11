@@ -53,9 +53,9 @@ public class WebCamDevice extends VideoDevice implements IWebCamDevice {
     }
 
     /**
-     * @see  IWebCamDevice#releaseAll()
+     * @see  IWebCamDevice#release()
      */
-    public void releaseAll() {
+    public void release() {
         if (this.currentFrameGrabber != null) {
             try {
                 this.currentFrameGrabber.stopCapture();
@@ -66,6 +66,6 @@ public class WebCamDevice extends VideoDevice implements IWebCamDevice {
             }
         }
         this.releaseFrameGrabber();
-        this.release();
+        super.release();
     }
 }

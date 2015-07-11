@@ -3,6 +3,7 @@ package de.hammerton.sensornode.core.sensormanagement;
 import de.hammerton.sensornode.core.sensordatamanagement.SensorData;
 import de.hammerton.sensornode.core.sensordatamanagement.SensorDataQueue;
 import de.hammerton.sensornode.core.sensormanagement.sensor.SensorMock;
+import de.hammerton.sensornode.core.sensormanagement.sensor.device.IDevice;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,7 +17,7 @@ public class SensorTest {
 
     @Before
     public void setUp() throws Exception {
-        this.sensor = new SensorMock(25, "sensor");
+        this.sensor = new SensorMock(25, "sensor", Mockito.mock(IDevice.class));
     }
 
     @After
@@ -52,5 +53,16 @@ public class SensorTest {
         SensorDataQueue queue = Mockito.mock(SensorDataQueue.class);
         this.sensor.setSensorDataQueue(queue);
         assertEquals(queue, this.sensor.getSensorDataQueue());
+    }
+
+
+    @Test
+    public void testClose() throws Exception {
+        Sensor spySensor = Mockito.spy(this.sensor);
+
+        Mockito.doNothing().when(spySensor.device).release();
+        spySensor.close();
+
+        Mockito.verify(spySensor.device).release();
     }
 }

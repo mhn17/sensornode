@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <sensors>
-    <dummy>
-        <id>101</id>
-        <name>DummySensor1</name>
-    </dummy>
-    <dummy>
-        <id>102</id>
-        <name>DummySensor2</name>
-    </dummy>
+    <basic>
+        <id>103</id>
+        <name>TFA remote temperature sensor</name>
+        <device type="file">
+            <path>/home/marc/Development/python/projects/temp_sensor_reader/temperature.txt</path>
+            <adapter type="temperature"/>
+        </device>
+    </basic>
+
+    <!--<basic>-->
+        <!--<id>101</id>-->
+        <!--<name>DummySensor1</name>-->
+        <!--<device type="dummy"/>-->
+    <!--</basic>-->
+
     <!--
     <webCam>
         <id>102</id>

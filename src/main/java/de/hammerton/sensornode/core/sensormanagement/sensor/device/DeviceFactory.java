@@ -2,6 +2,9 @@ package de.hammerton.sensornode.core.sensormanagement.sensor.device;
 
 import au.edu.jcu.v4l4j.exceptions.V4L4JException;
 import de.hammerton.sensornode.core.sensormanagement.SensorManagementException;
+import de.hammerton.sensornode.core.sensormanagement.sensor.device.adapter.IStringAdapter;
+
+import java.io.IOException;
 
 /**
  * Factory for creating devices
@@ -32,5 +35,35 @@ public class DeviceFactory {
         }
 
         return device;
+    }
+
+    /**
+     * Creates a basic file device
+     *
+     * @param path The Path to the sensor data file
+     * @param adapter The adapter to extract the data from the file
+     * @return A basic file device
+     * @throws SensorManagementException
+     */
+    public IBasicDevice getFileDevice(String path, IStringAdapter adapter)
+            throws SensorManagementException {
+        IBasicDevice device;
+
+        try {
+            device = new FileDevice(path, adapter);
+        } catch (IOException e) {
+            throw new SensorManagementException("Could not create basic file device");
+        }
+
+        return device;
+    }
+
+    /**
+     * Creates a basic dummy device
+     *
+     * @return A basic dummy device
+     */
+    public IBasicDevice getDummyDevice() {
+        return new DummyDevice();
     }
 }

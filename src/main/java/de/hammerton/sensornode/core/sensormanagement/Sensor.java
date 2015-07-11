@@ -2,6 +2,7 @@ package de.hammerton.sensornode.core.sensormanagement;
 
 import de.hammerton.sensornode.core.sensordatamanagement.SensorData;
 import de.hammerton.sensornode.core.sensordatamanagement.SensorDataQueue;
+import de.hammerton.sensornode.core.sensormanagement.sensor.device.IDevice;
 
 import java.util.concurrent.BlockingQueue;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -16,8 +17,9 @@ public abstract class Sensor implements Runnable {
 
     protected int id, captureInterval;
     protected String name;
-    protected BlockingQueue<SensorData> sensorDataQueue;
+    protected SensorDataQueue sensorDataQueue;
     protected byte[] data = null;
+    protected IDevice device = null;
 
     /**
      * Constructor
@@ -26,8 +28,8 @@ public abstract class Sensor implements Runnable {
      * @param id The sensor ID
      * @param name The name of the sensor
      */
-    public Sensor(int id, String name) {
-        this(id, name, 3000);
+    public Sensor(int id, String name, IDevice device) {
+        this(id, name, 3000, device);
     }
 
     /**
@@ -38,18 +40,13 @@ public abstract class Sensor implements Runnable {
      * @param name The name of the sensor
      * @param captureInterval The capture interval
      */
-    public Sensor(int id, String name, int captureInterval) {
+    public Sensor(int id, String name, int captureInterval, IDevice device) {
         this.id = id;
         this.name = name;
         this.captureInterval = captureInterval;
+        this.device = device;
         this.sensorDataQueue = SensorDataQueue.getInstance();
     }
-
-    /**
-     * Close the sensor
-     * Perform all necessary actions to shutdown the sensor gracefully
-     */
-    public abstract void close();
 
     /**
      * Start capturing data from the sensor
@@ -118,7 +115,7 @@ public abstract class Sensor implements Runnable {
      *
      * return the sensor data queue
      */
-    public BlockingQueue<SensorData> getSensorDataQueue() {
+    public SensorDataQueue getSensorDataQueue() {
         return sensorDataQueue;
     }
 
@@ -127,7 +124,7 @@ public abstract class Sensor implements Runnable {
      *
      * @param sensorDataQueue The sensor data queue
      */
-    public void setSensorDataQueue(BlockingQueue<SensorData> sensorDataQueue) {
+    public void setSensorDataQueue(SensorDataQueue sensorDataQueue) {
         this.sensorDataQueue = sensorDataQueue;
     }
 
@@ -154,4 +151,22 @@ public abstract class Sensor implements Runnable {
         }
     }
 
+    /**
+     * Close the sensor
+     * Perform all necessary actions to shutdown the sensor gracefully
+     */
+    public void close() {
+        System.out.println("Sensor: Closing " + this.name);
+        this.device.release();
+    }
+
+
+    /**
+     * Return the current device for this sensor
+     *
+     * @return The current device
+     */
+    public IDevice getDevice() {
+        return this.device;
+    }
 }
