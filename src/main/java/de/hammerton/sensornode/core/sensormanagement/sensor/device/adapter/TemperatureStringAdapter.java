@@ -17,6 +17,6 @@ public class TemperatureStringAdapter implements IStringAdapter {
      */
     @Override
     public String extractData(String rawData) {
-        return rawData.substring(13);
+        return rawData.substring(13).replace(System.getProperty("line.separator"), "");
     }
 }
