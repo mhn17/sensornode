@@ -7,6 +7,7 @@
             <path>/home/marc/Development/python/projects/temp_sensor_reader/temperature.txt</path>
             <adapter type="temperature"/>
         </device>
+        <captureInterval>30000</captureInterval>
     </basic>
 
     <!--<basic>-->

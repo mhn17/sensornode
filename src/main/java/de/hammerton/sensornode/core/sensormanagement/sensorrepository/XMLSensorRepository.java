@@ -5,7 +5,6 @@ import de.hammerton.sensornode.core.sensormanagement.Sensor;
 import de.hammerton.sensornode.core.sensormanagement.SensorList;
 import de.hammerton.sensornode.core.sensormanagement.SensorRepository;
 import de.hammerton.sensornode.core.sensormanagement.sensor.BasicSensor;
-import de.hammerton.sensornode.core.sensormanagement.sensor.device.DummyDevice;
 import de.hammerton.sensornode.core.sensormanagement.sensor.WebCamSensor;
 import de.hammerton.sensornode.core.sensormanagement.sensor.device.DeviceFactory;
 import de.hammerton.sensornode.core.sensormanagement.sensor.device.IBasicDevice;
@@ -77,11 +76,23 @@ public class XMLSensorRepository implements SensorRepository {
         for (HierarchicalConfiguration basicSensor : basicConfigurations) {
             IBasicDevice device = this.createBasicDevice(basicSensor.configurationAt("device"));
 
-            Sensor sensor = new BasicSensor(
-                    basicSensor.getInt("id"),
-                    basicSensor.getString("name"),
-                    device
-            );
+            Sensor sensor;
+            if (basicSensor.containsKey("captureInterval")) {
+                sensor = new BasicSensor(
+                        basicSensor.getInt("id"),
+                        basicSensor.getString("name"),
+                        basicSensor.getInt("captureInterval"),
+                        device
+                );
+            }
+            else {
+                sensor = new BasicSensor(
+                        basicSensor.getInt("id"),
+                        basicSensor.getString("name"),
+                        device
+                );
+
+            }
 
             this.sensorList.add(sensor);
         }
@@ -147,7 +158,24 @@ public class XMLSensorRepository implements SensorRepository {
                         webCam.getInt("height"),
                         webCam.getInt("channel"));
 
-                Sensor sensor = new WebCamSensor(webCam.getInt("id"), webCam.getString("name"), device);
+                Sensor sensor;
+                if (webCam.containsKey("captureInterval")) {
+                    sensor = new WebCamSensor(
+                            webCam.getInt("id"),
+                            webCam.getString("name"),
+                            webCam.getInt("captureInterval"),
+                            device
+                    );
+                }
+                else {
+                    sensor = new WebCamSensor(
+                            webCam.getInt("id"),
+                            webCam.getString("name"),
+                            device
+                    );
+
+                }
+
                 this.sensorList.add(sensor);
             } catch (SensorManagementException e) {
                 System.out.println("Could not add web cam sensor to list:");
