@@ -1,4 +1,4 @@
-package de.hammerton.sensornode.core.sensordatamanagement.mongodb;
+package de.hammerton.sensornode.core.sensordatamanagement.repository;
 
 import de.hammerton.sensornode.core.sensordatamanagement.SensorData;
 import com.mongodb.BasicDBObject;

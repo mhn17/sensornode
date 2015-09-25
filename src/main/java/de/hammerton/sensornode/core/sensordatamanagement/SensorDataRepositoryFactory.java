@@ -1,11 +1,17 @@
 package de.hammerton.sensornode.core.sensordatamanagement;
 
-import de.hammerton.sensornode.core.sensordatamanagement.mongodb.MongoDbSensorDataRepository;
+import de.hammerton.sensornode.core.sensordatamanagement.repository.MongoDbSensorDataRepository;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.MongoClient;
+import de.hammerton.sensornode.core.sensordatamanagement.repository.OrientDbSensorDataRepository;
+import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.configuration.HierarchicalConfiguration;
+import org.apache.commons.configuration.SubnodeConfiguration;
+import org.apache.commons.configuration.XMLConfiguration;
 
 import java.net.UnknownHostException;
+import java.util.List;
 
 /**
  * Factory for getting sensor data repositories
@@ -14,13 +20,7 @@ import java.net.UnknownHostException;
  */
 public class SensorDataRepositoryFactory {
 
-    /**
-     * MongoDb configuration values
-     */
-    private final static String HOST = "localhost";
-    private final static int PORT = 27017;
-    private final static String DB = "sensorNode";
-    private final static String COLLECTION = "sensorData";
+    public static String configurationFile = "config.xml";
 
     /**
      * Return a SensorDataRepository
@@ -28,9 +28,45 @@ public class SensorDataRepositoryFactory {
      * @return SensorDataRepository
      */
     public static SensorDataRepository getRepository() throws SensorDataManagementException {
+        XMLConfiguration config = null;
+
+        try {
+            config = new XMLConfiguration(configurationFile);
+        } catch (ConfigurationException e) {
+            throw new SensorDataManagementException("Could not create XMLConfiguration");
+        }
+
+        SubnodeConfiguration dbConfig = config.configurationAt("databases");
+
+        switch(dbConfig.getString("use")) {
+            case "mongoDb":
+                return getMongoDbDataRepository(dbConfig.configurationAt("mongoDb"));
+            case "orientDb":
+                return getOrientDbDataRepository(dbConfig.configurationAt("orientDb"));
+            default:
+                throw new SensorDataManagementException("Could not create SensorDataRepository");
+        }
+
+    }
+
+    /**
+     * Create the mongoDb collection and return the MongoDbSensorDataRepository
+     *
+     * @param config configuration for the mongoDb
+     * @return The MongoDbSensorDataRepository
+     */
+    private static SensorDataRepository getMongoDbDataRepository(SubnodeConfiguration config)
+            throws SensorDataManagementException {
+        String host = config.getString("host");
+        int port = config.getInt("port");
+        String dbName = config.getString("db");
+        String collectionName = config.getString("collection");
+
         DBCollection collection;
         try {
-            collection = getMongoDbCollection();
+            MongoClient mongoClient = new MongoClient(host, port);
+            DB db = mongoClient.getDB(dbName);
+            collection = db.getCollection(collectionName);
         } catch (UnknownHostException e) {
             throw new SensorDataManagementException("Could not create MongoClient");
         }
@@ -39,13 +75,15 @@ public class SensorDataRepositoryFactory {
     }
 
     /**
-     * Create and return the mongoDb collection
-     * @return The mongoDb collection
-     * @throws UnknownHostException
+     * Create the orientDb and return the OrientDbSensorDataRepository
+     *
+     * @param config configuration for the orientDb
+     * @return The OrientDbSensorDataRepository
      */
-    private static DBCollection getMongoDbCollection() throws UnknownHostException {
-        MongoClient mongoClient = new MongoClient(HOST , PORT);
-        DB db = mongoClient.getDB(DB);
-        return db.getCollection(COLLECTION);
+    private static SensorDataRepository getOrientDbDataRepository(SubnodeConfiguration config)
+            throws SensorDataManagementException {
+
+
+        return new OrientDbSensorDataRepository();
     }
 }
