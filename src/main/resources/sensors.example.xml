@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<sensors>
+
+    <basic>
+        <id>101</id>
+        <name>DummySensor1</name>
+        <device type="dummy"/>
+    </basic>
+
+    <webCam>
+        <id>102</id>
+        <name>webCam1</name>
+        <devicePath>/dev/video0</devicePath>
+        <width>640</width>
+        <height>480</height>
+        <channel>0</channel>
+    </webCam>
+
+    <basic>
+        <id>103</id>
+        <name>TFA remote temperature sensor</name>
+        <device type="file">
+            <path>/path/to/temperature.txt</path>
+            <adapter type="temperature"/>
+        </device>
+        <captureInterval>30000</captureInterval>
+    </basic>
+
+</sensors>
