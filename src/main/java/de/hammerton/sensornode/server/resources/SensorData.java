@@ -15,6 +15,9 @@ public class SensorData {
 
     private SensorDataRepository sensorDataRepository = null;
 
+    /**
+     * Constructor
+     */
     public SensorData() {
         try {
             this.sensorDataRepository = SensorDataRepositoryFactory.getRepository();
@@ -35,6 +38,11 @@ public class SensorData {
         this.sensorDataRepository.remove(UUID.fromString(id));
     }
 
+    /**
+     * Set the SensorDataRepository
+     *
+     * @param sensorDataRepository The SensorDataRepository
+     */
     public void setSensorDataRepository(SensorDataRepository sensorDataRepository) {
         this.sensorDataRepository = sensorDataRepository;
     }

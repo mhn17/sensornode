@@ -1,5 +1,9 @@
 package de.hammerton.sensornode.server.resources;
 
+import de.hammerton.sensornode.core.sensordatamanagement.SensorDataManagementException;
+import de.hammerton.sensornode.core.sensordatamanagement.SensorDataRepository;
+import de.hammerton.sensornode.core.sensordatamanagement.SensorDataRepositoryFactory;
+import de.hammerton.sensornode.core.sensordatamanagement.SensorData;
 import de.hammerton.sensornode.core.sensormanagement.Sensor;
 import de.hammerton.sensornode.core.sensormanagement.SensorManager;
 import de.hammerton.sensornode.server.dto.SensorDto;
@@ -16,6 +20,9 @@ public class Sensors {
 
     private SensorManager sensorManager;
 
+    /**
+     * Constructor
+     */
     public Sensors() {
         this.sensorManager = SensorManager.getInstance();
     }
@@ -45,6 +52,27 @@ public class Sensors {
         return null;
     }
 
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{id}/sensorData")
+    public ArrayList<SensorData> listSensorDataBySensorId(@PathParam("id") int sensorId) {
+        SensorDataRepository sensorDataRepository;
+
+        try {
+            sensorDataRepository = SensorDataRepositoryFactory.getRepository();
+        } catch (SensorDataManagementException e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
+
+        return sensorDataRepository.findBySensorId(sensorId);
+    }
+
+    /**
+     * Set the SensorManager
+     *
+     * @param sensorManager The SensorManager
+     */
     public void setSensorManager(SensorManager sensorManager) {
         this.sensorManager = sensorManager;
     }
