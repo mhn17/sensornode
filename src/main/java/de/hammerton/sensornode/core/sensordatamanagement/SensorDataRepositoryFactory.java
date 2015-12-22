@@ -1,17 +1,16 @@
 package de.hammerton.sensornode.core.sensordatamanagement;
 
+import com.orientechnologies.orient.core.db.document.ODatabaseDocumentTx;
 import de.hammerton.sensornode.core.sensordatamanagement.repository.MongoDbSensorDataRepository;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.MongoClient;
 import de.hammerton.sensornode.core.sensordatamanagement.repository.OrientDbSensorDataRepository;
 import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.HierarchicalConfiguration;
 import org.apache.commons.configuration.SubnodeConfiguration;
 import org.apache.commons.configuration.XMLConfiguration;
 
 import java.net.UnknownHostException;
-import java.util.List;
 
 /**
  * Factory for getting sensor data repositories
@@ -28,7 +27,7 @@ public class SensorDataRepositoryFactory {
      * @return SensorDataRepository
      */
     public static SensorDataRepository getRepository() throws SensorDataManagementException {
-        XMLConfiguration config = null;
+        XMLConfiguration config;
 
         try {
             config = new XMLConfiguration(configurationFile);
@@ -82,8 +81,12 @@ public class SensorDataRepositoryFactory {
      */
     private static SensorDataRepository getOrientDbDataRepository(SubnodeConfiguration config)
             throws SensorDataManagementException {
+        String url = config.getString("url");
+        String userName = config.getString("username");
+        String password = config.getString("password");
 
+        ODatabaseDocumentTx db = new ODatabaseDocumentTx(url);
 
-        return new OrientDbSensorDataRepository();
+        return new OrientDbSensorDataRepository(db, userName, password);
     }
 }

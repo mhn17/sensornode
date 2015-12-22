@@ -25,6 +25,10 @@ MongoDB
 - http://www.mongodb.org/  
 - Needed to store the sensor data. It can be replaced by any other DBMS by implementing the SensorDataRepository and adjusting the SensorDataRepositoryFactory.
 
+OrientDB
+- http://orientdb.com/orientdb/
+- To use the sensor node on a Raspberry Pi Model A use the orient DB
+
 v4l4j (Video for Linux for Java)  
 - https://code.google.com/p/v4l4j/  
 - Needed to access a web cam.
@@ -35,11 +39,21 @@ Set up
 1. Add v4lvj library  
 Add the v4l4j.jar to the lib folder
 
-2. Set up MongoDB  
+2. Set up database
+2.1 Set up MongoDB  
 Install MongoDB and create a database and collection with following values:  
 database => "sensorNode"  
 collection => "sensorData"
-		
+
+2.2. Set up OrientDB
+- create DB sensor_node
+- create class ("CREATE CLASS SensorData")
+- create properties
+    CREATE PROPERTY SensorData.id string
+    CREATE PROPERTY SensorData.sensorId integer
+    CREATE PROPERTY SensorData.timestamp long
+    CREATE PROPERTY SensorData.data binary
+			
 3. Configure sensors  
 Every connected sensor needs to be configured in the sensors.xml file (src/main/resources/sensors.xml)  
 At the moment two types of sensors are implemented:

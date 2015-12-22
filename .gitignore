@@ -1,5 +1,5 @@
-/src/main/resources/config.xml
-/src/main/resources/sensors.xml
+src/main/resources/config.xml
+src/main/resources/sensors.xml
 **/.idea
 **/.gradle
 **/gradle/

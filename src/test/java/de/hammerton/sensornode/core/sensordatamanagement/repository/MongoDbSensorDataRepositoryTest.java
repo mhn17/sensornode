@@ -89,12 +89,6 @@ public class MongoDbSensorDataRepositoryTest {
     }
 
     @Test
-    public void testString() throws Exception {
-        String sensorData = "MTcuMQ==";
-        Assert.assertEquals("26", new String(sensorData.getBytes()));
-    }
-
-    @Test
     public void testRemove() throws Exception {
         UUID id = UUID.randomUUID();
 
