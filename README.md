@@ -46,7 +46,9 @@ database => "sensorNode"
 collection => "sensorData"
 
 2.2. Set up OrientDB
-- create DB sensor_node
+To use the console use "/path-to-orientdb/bin/console.sh"
+- create user for database
+- create DB sensor_node ("create database plocal:../databases/sensor_node admin admin plocal DOCUMENT")
 - create class ("CREATE CLASS SensorData")
 - create properties
     CREATE PROPERTY SensorData.id string
