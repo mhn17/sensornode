@@ -3,8 +3,6 @@ src/main/resources/sensors.xml
 **/.idea
 **/.gradle
 **/gradle/
-**/gradlew
-**/gradlew.bat
 **/SensorNode.iml
 **/build
 **/out
