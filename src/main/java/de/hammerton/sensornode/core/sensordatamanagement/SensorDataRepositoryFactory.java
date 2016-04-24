@@ -1,20 +1,14 @@
 package de.hammerton.sensornode.core.sensordatamanagement;
 
-import com.couchbase.lite.*;
-import com.orientechnologies.orient.core.db.document.ODatabaseDocumentTx;
-import de.hammerton.sensornode.core.sensordatamanagement.repository.CouchbaseLiteDbSensorDataRepository;
 import de.hammerton.sensornode.core.sensordatamanagement.repository.MongoDbSensorDataRepository;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.MongoClient;
-import de.hammerton.sensornode.core.sensordatamanagement.repository.OrientDbSensorDataRepository;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.SubnodeConfiguration;
 import org.apache.commons.configuration.XMLConfiguration;
 
-import java.io.IOException;
 import java.net.UnknownHostException;
-import java.util.Map;
 
 /**
  * Factory for getting sensor data repositories
@@ -23,7 +17,7 @@ import java.util.Map;
  */
 public class SensorDataRepositoryFactory {
 
-    public static String configurationFile = "config.xml";
+    private static String configurationFile = "config.xml";
     private static SensorDataRepository repository = null;
 
     /**
@@ -50,49 +44,11 @@ public class SensorDataRepositoryFactory {
             case "mongoDb":
                 repository = getMongoDbDataRepository(dbConfig.configurationAt("mongoDb"));
                 break;
-            case "orientDb":
-                repository = getOrientDbDataRepository(dbConfig.configurationAt("orientDb"));
-                break;
-            case "couchbase":
-                repository = getCouchbaseLiteDbDataRepository();
-                break;
             default:
                 throw new SensorDataManagementException("Could not create SensorDataRepository");
         }
 
         return repository;
-    }
-
-    /**
-     * Create the couchbase lite database and return the CouchbaseLiteDbDataRepository
-     *
-     * @return The CouchbaseLiteDbDataRepository
-     * @throws SensorDataManagementException
-     */
-    private static SensorDataRepository getCouchbaseLiteDbDataRepository()
-            throws SensorDataManagementException {
-        Manager manager;
-        Database db;
-        try {
-            manager = new Manager(new JavaContext("data"), Manager.DEFAULT_OPTIONS);
-            db = manager.getDatabase("sensor_node");
-        } catch (IOException e) {
-            throw new SensorDataManagementException("Could not create couchbase manager");
-        } catch (CouchbaseLiteException e) {
-            throw new SensorDataManagementException("Could not create couchbase database");
-        }
-
-        View sensorIdsView = db.getView("sensorIdsView");
-        sensorIdsView.setMap(new Mapper() {
-            @Override
-            public void map(Map<String, Object> document, Emitter emitter) {
-                if (document.containsKey("sensorId")) {
-                    emitter.emit(document.get("sensorId"), document);
-                }
-            }
-        }, "1");
-
-        return new CouchbaseLiteDbSensorDataRepository(db);
     }
 
     /**
@@ -118,22 +74,5 @@ public class SensorDataRepositoryFactory {
         }
 
         return new MongoDbSensorDataRepository(collection);
-    }
-
-    /**
-     * Create the orientDb and return the OrientDbSensorDataRepository
-     *
-     * @param config configuration for the orientDb
-     * @return The OrientDbSensorDataRepository
-     */
-    private static SensorDataRepository getOrientDbDataRepository(SubnodeConfiguration config)
-            throws SensorDataManagementException {
-        String url = config.getString("url");
-        String userName = config.getString("username");
-        String password = config.getString("password");
-
-        ODatabaseDocumentTx db = new ODatabaseDocumentTx(url);
-
-        return new OrientDbSensorDataRepository(db, userName, password);
     }
 }

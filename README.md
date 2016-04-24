@@ -25,12 +25,6 @@ MongoDB
 - http://www.mongodb.org/  
 - Needed to store the sensor data. It can be replaced by any other DBMS by implementing the SensorDataRepository and adjusting the SensorDataRepositoryFactory.
 
-OrientDB
-- http://orientdb.com/orientdb/
-
-Couchbase lite
-- http://www.couchbase.com/nosql-databases/couchbase-mobile
-
 v4l4j (Video for Linux for Java)  
 - https://code.google.com/p/v4l4j/  
 - Needed to access a web cam.
@@ -47,32 +41,12 @@ Install MongoDB and create a database and collection with following values:
 database => "sensorNode"  
 collection => "sensorData"
 
-2.2. Set up OrientDB
-To use the console use "/path-to-orientdb/bin/console.sh"
-- create user for database
-- create DB sensor_node ("create database plocal:../databases/sensor_node admin admin plocal DOCUMENT")
-- create class ("CREATE CLASS SensorData")
-- create properties
-    CREATE PROPERTY SensorData.id string
-    CREATE PROPERTY SensorData.sensorId integer
-    CREATE PROPERTY SensorData.timestamp long
-    CREATE PROPERTY SensorData.data binary
-
-2.3 Set up Couchbase lite
-The couchbase lite database needs a natively compiled library:
-- git clone https://github.com/couchbase/couchbase-lite-java.git
-- git submodule update --init --recursive
-- gradlew -Pspec=java clean
-- gradlew -Pspec=java build
-
 3. Configuration
 3.1 System config
 Config file: src/main/resources/config.xml
 Copy the config.example.xml file and rename it to config.xml.  
 Configure which database to use and add the settings for the database.
 MongoDB: <use>mongoDb</use>
-OrientDB: <use>orientDb</use>
-Couchbase lite: <use>couchbase</use>
   
 3.2 Sensor config
 Config file: src/main/resources/sensors.xml

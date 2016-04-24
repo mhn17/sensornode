@@ -1,17 +1,12 @@
 <config>
     <databases>
-        <use>orientDb</use>
+        <use>mongoDb</use>
         <mongoDb>
             <host>localhost</host>
             <port>27017</port>
             <db>sensorNode</db>
             <collection>sensorData</collection>
         </mongoDb>
-        <orientDb>
-            <url>remote:localhost/sensor_node</url>
-            <username>user</username>
-            <password>password</password>
-        </orientDb>
     </databases>
 
 </config>
