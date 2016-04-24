@@ -27,7 +27,9 @@ MongoDB
 
 OrientDB
 - http://orientdb.com/orientdb/
-- To use the sensor node on a Raspberry Pi Model A use the orient DB
+
+Couchbase lite
+- http://www.couchbase.com/nosql-databases/couchbase-mobile
 
 v4l4j (Video for Linux for Java)  
 - https://code.google.com/p/v4l4j/  
@@ -55,9 +57,28 @@ To use the console use "/path-to-orientdb/bin/console.sh"
     CREATE PROPERTY SensorData.sensorId integer
     CREATE PROPERTY SensorData.timestamp long
     CREATE PROPERTY SensorData.data binary
-			
-3. Configure sensors  
-Every connected sensor needs to be configured in the sensors.xml file (src/main/resources/sensors.xml)  
+
+2.3 Set up Couchbase lite
+The couchbase lite database needs a natively compiled library:
+- git clone https://github.com/couchbase/couchbase-lite-java.git
+- git submodule update --init --recursive
+- gradlew -Pspec=java clean
+- gradlew -Pspec=java build
+
+3. Configuration
+3.1 System config
+Config file: src/main/resources/config.xml
+Copy the config.example.xml file and rename it to config.xml.  
+Configure which database to use and add the settings for the database.
+MongoDB: <use>mongoDb</use>
+OrientDB: <use>orientDb</use>
+Couchbase lite: <use>couchbase</use>
+  
+3.2 Sensor config
+Config file: src/main/resources/sensors.xml
+Copy the sensors.example.xml file and rename it to sensors.xml.  
+Every connected sensor needs to be configured in the sensors.xml file (src/main/resources/sensors.xml).  
+Copy/rename src/main/resources/sensors.example.xml to src/main/resources/sensors.xml and edit the configuration.
 At the moment two types of sensors are implemented:
 
 	Dummy sensor: a sensor for testing purposes
@@ -79,4 +100,4 @@ At the moment two types of sensors are implemented:
 			</webCam>
 		
 4. Run application  
-Use "gradle run" to build and run the application.
+Use "gradlew run" to build and run the application.
