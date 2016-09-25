@@ -15,7 +15,6 @@ repositories {
 
 dependencies {
     compile 'org.mongodb:mongo-java-driver:2.12.3'
-    compile ':v4l4j'
     compile 'commons-configuration:commons-configuration:1.10'
     compile 'commons-collections:commons-collections:3.2.1'
     compile 'com.sun.jersey:jersey-core:1.19'

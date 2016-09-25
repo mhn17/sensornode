@@ -2,9 +2,7 @@ package de.hammerton.sensornode.core.sensormanagement.sensorrepository;
 
 import de.hammerton.sensornode.core.sensormanagement.SensorList;
 import de.hammerton.sensornode.core.sensormanagement.sensor.BasicSensor;
-import de.hammerton.sensornode.core.sensormanagement.sensor.WebCamSensor;
 import de.hammerton.sensornode.core.sensormanagement.sensor.device.DeviceFactory;
-import de.hammerton.sensornode.core.sensormanagement.sensor.device.IWebCamDevice;
 import org.apache.commons.configuration.XMLConfiguration;
 import org.junit.After;
 import org.junit.Before;
@@ -38,15 +36,11 @@ public class XMLSensorRepositoryTest {
 
     @Test
     public void testGetActiveSensors() throws Exception {
-        IWebCamDevice device = Mockito.mock(IWebCamDevice.class);
-        Mockito.doReturn(device).when(this.deviceFactory).getWebCamDevice("/dev/video0", 640, 480, 0);
-
         SensorList activeSensors = this.repository.getActiveSensors();
         assertTrue(activeSensors != null);
-        assertTrue(activeSensors.size() == 3);
+        assertTrue(activeSensors.size() == 2);
 
-        assertEquals(WebCamSensor.class, activeSensors.get(0).getClass());
+        assertEquals(BasicSensor.class, activeSensors.get(0).getClass());
         assertEquals(BasicSensor.class, activeSensors.get(1).getClass());
-        assertEquals(BasicSensor.class, activeSensors.get(2).getClass());
     }
 }

@@ -5,10 +5,8 @@ import de.hammerton.sensornode.core.sensormanagement.Sensor;
 import de.hammerton.sensornode.core.sensormanagement.SensorList;
 import de.hammerton.sensornode.core.sensormanagement.SensorRepository;
 import de.hammerton.sensornode.core.sensormanagement.sensor.BasicSensor;
-import de.hammerton.sensornode.core.sensormanagement.sensor.WebCamSensor;
 import de.hammerton.sensornode.core.sensormanagement.sensor.device.DeviceFactory;
 import de.hammerton.sensornode.core.sensormanagement.sensor.device.IBasicDevice;
-import de.hammerton.sensornode.core.sensormanagement.sensor.device.IWebCamDevice;
 import de.hammerton.sensornode.core.sensormanagement.sensor.device.adapter.IStringAdapter;
 import de.hammerton.sensornode.core.sensormanagement.sensor.device.adapter.TemperatureStringAdapter;
 import org.apache.commons.configuration.HierarchicalConfiguration;
@@ -57,10 +55,6 @@ public class XMLSensorRepository implements SensorRepository {
      */
     private void createSensorList() {
         this.sensorList = new SensorList();
-
-        // get web cams
-        List<HierarchicalConfiguration> webCams = this.config.configurationsAt("webCam");
-        this.createWebCams(webCams);
 
         // get basic sensors
         List<HierarchicalConfiguration> basicSensors = this.config.configurationsAt("basic");
@@ -141,46 +135,6 @@ public class XMLSensorRepository implements SensorRepository {
                 return new TemperatureStringAdapter();
             default:
                 return null;
-        }
-    }
-
-    /**
-     * Create web cams and add to sensor list
-     *
-     * @param webCamConfigurations hierarchical configuration list of web cams
-     */
-    private void createWebCams(List<HierarchicalConfiguration> webCamConfigurations) {
-        for (HierarchicalConfiguration webCam : webCamConfigurations) {
-            try {
-                IWebCamDevice device = this.deviceFactory.getWebCamDevice(
-                        webCam.getString("devicePath"),
-                        webCam.getInt("width"),
-                        webCam.getInt("height"),
-                        webCam.getInt("channel"));
-
-                Sensor sensor;
-                if (webCam.containsKey("captureInterval")) {
-                    sensor = new WebCamSensor(
-                            webCam.getInt("id"),
-                            webCam.getString("name"),
-                            webCam.getInt("captureInterval"),
-                            device
-                    );
-                }
-                else {
-                    sensor = new WebCamSensor(
-                            webCam.getInt("id"),
-                            webCam.getString("name"),
-                            device
-                    );
-
-                }
-
-                this.sensorList.add(sensor);
-            } catch (SensorManagementException e) {
-                System.out.println("Could not add web cam sensor to list:");
-                System.out.println(e.getMessage());
-            }
         }
     }
 }

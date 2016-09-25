@@ -10,7 +10,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.io.File;
 import java.net.URL;
 
 import static org.junit.Assert.*;
@@ -34,20 +33,6 @@ public class DeviceFactoryTest {
         if (this.device != null) {
             this.device.release();
         }
-    }
-
-    @Test
-    @Ignore
-    public void testGetWebCamDevice() throws Exception {
-        this.device = this.deviceFactory.getWebCamDevice("/dev/video0", 640, 480, 0);
-
-        assertNotNull(device);
-    }
-
-    @Test(expected = SensorManagementException.class)
-    public void testGetWebCamDeviceThrowsSensorManagementException()
-            throws SensorManagementException {
-        this.deviceFactory.getWebCamDevice("path/to/device", 1, 1, 1);
     }
 
     @Test

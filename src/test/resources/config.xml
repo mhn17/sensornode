@@ -1,0 +1,12 @@
+<config>
+    <databases>
+        <use>mongoDb</use>
+        <mongoDb>
+            <host>localhost</host>
+            <port>27017</port>
+            <db>sensorNode</db>
+            <collection>sensorData</collection>
+        </mongoDb>
+    </databases>
+
+</config>
