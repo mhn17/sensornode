@@ -36,6 +36,7 @@ public interface SensorDataRepository {
      * Remove a single sensor data record
      *
      * @param id The sensor data ID
+     * @throws SensorDataManagementException When the sensor data could not be removed an exception is thrown
      */
-    public void remove(UUID id);
+    public void remove(UUID id) throws SensorDataManagementException;
 }

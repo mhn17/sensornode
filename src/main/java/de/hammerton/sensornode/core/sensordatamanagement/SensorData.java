@@ -28,9 +28,9 @@ public class SensorData {
 
     /**
      * Constructor
-     *  - sets the id to a specific id
-     *  - sets the timestamp to a specific time
-     *  @param sensorId The sensor ID
+     *
+     * @param id The sensor data ID
+     * @param sensorId The sensor ID
      * @param timestamp The time when the data was read
      * @param data The sensor data
      */

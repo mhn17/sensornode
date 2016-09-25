@@ -35,7 +35,11 @@ public class SensorData {
     @DELETE
     @Path("/{id}")
     public void delete(@PathParam("id") String id) {
-        this.sensorDataRepository.remove(UUID.fromString(id));
+        try {
+            this.sensorDataRepository.remove(UUID.fromString(id));
+        } catch (SensorDataManagementException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
