@@ -5,14 +5,6 @@
         <name>DummySensor1</name>
         <device type="dummy"/>
     </basic>
-    <webCam>
-        <id>2</id>
-        <name>webCamTest</name>
-        <devicePath>/dev/video0</devicePath>
-        <width>640</width>
-        <height>480</height>
-        <channel>0</channel>
-    </webCam>
     <basic>
         <id>3</id>
         <name>FileSensor1</name>
