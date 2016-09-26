@@ -57,5 +57,13 @@ At the moment a basic sensor with two device types are implemented:
         
         </sensors>
 		
-3. Run application
-Use "gradlew run" to build and run the application.
+Run application
+---------------
+Either use the gradle run task:
+
+    ./gradlew run
+    
+Or build a fat jar and run it with the java command:
+
+    ./gradlew fatJar
+    java -jar build/libs/SensorNode-all-1.0.jar
