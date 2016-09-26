@@ -16,8 +16,7 @@ repositories {
 dependencies {
     compile 'org.jetbrains.xodus:xodus-openAPI:1.0.1'
     compile 'org.jetbrains.xodus:xodus-entity-store:1.0.1'
-    compile 'org.jetbrains.xodus:xodus-environment:1.0.1'
-    compile 'org.jetbrains.xodus:xodus-utils:1.0.1'
+    compile 'org.slf4j:slf4j-simple:1.7.21'
 
     compile 'commons-configuration:commons-configuration:1.10'
     compile 'commons-collections:commons-collections:3.2.1'
