@@ -35,6 +35,18 @@ run {
     standardInput = System.in
 }
 
+//create a single Jar with all dependencies
+task fatJar(type: Jar) {
+    manifest {
+        attributes 'Implementation-Title': 'Sensor-Node',
+                'Implementation-Version': version,
+                'Main-Class': mainClassName
+    }
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
 test {
     reports.html.destination = "${projectDir}/docs/tests/results"
 }
