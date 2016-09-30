@@ -12,5 +12,7 @@
             <path>temperature.txt</path>
             <adapter type="temperature"/>
         </device>
+        <captureInterval>60000</captureInterval>
+        <dataType>application/json</dataType>
     </basic>
 </sensors>

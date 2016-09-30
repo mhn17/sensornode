@@ -71,22 +71,23 @@ public class XMLSensorRepository implements SensorRepository {
             IBasicDevice device = this.createBasicDevice(basicSensor.configurationAt("device"));
 
             Sensor sensor;
+            int captureInterval = Sensor.DEFAULT_CAPTURE_INTERVAL;
             if (basicSensor.containsKey("captureInterval")) {
-                sensor = new BasicSensor(
-                        basicSensor.getInt("id"),
-                        basicSensor.getString("name"),
-                        basicSensor.getInt("captureInterval"),
-                        device
-                );
+                captureInterval = basicSensor.getInt("captureInterval");
             }
-            else {
-                sensor = new BasicSensor(
-                        basicSensor.getInt("id"),
-                        basicSensor.getString("name"),
-                        device
-                );
 
+            String dataType = Sensor.DEFAULT_DATA_TYPE;
+            if (basicSensor.containsKey("dataType")) {
+                dataType = basicSensor.getString("dataType");
             }
+
+            sensor = new BasicSensor(
+                    basicSensor.getInt("id"),
+                    basicSensor.getString("name"),
+                    captureInterval,
+                    dataType,
+                    device
+            );
 
             this.sensorList.add(sensor);
         }

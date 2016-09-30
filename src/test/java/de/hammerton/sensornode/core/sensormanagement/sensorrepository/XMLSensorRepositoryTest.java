@@ -9,7 +9,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.junit.Assert.assertEquals;
@@ -42,5 +41,9 @@ public class XMLSensorRepositoryTest {
 
         assertEquals(BasicSensor.class, activeSensors.get(0).getClass());
         assertEquals(BasicSensor.class, activeSensors.get(1).getClass());
+
+        // check optional parameters
+        assertEquals(60000, activeSensors.get(1).getCaptureInterval());
+        assertEquals("application/json", activeSensors.get(1).getDataType());
     }
 }

@@ -5,6 +5,8 @@
         <id>101</id>
         <name>DummySensor1</name>
         <device type="dummy"/>
+        <captureInterval>2000</captureInterval>
+        <dataType>text/plain</dataType>
     </basic>
 
     <basic>
@@ -15,6 +17,7 @@
             <adapter type="temperature"/>
         </device>
         <captureInterval>30000</captureInterval>
+        <dataType>text/plain</dataType>
     </basic>
 
 </sensors>

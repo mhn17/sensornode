@@ -32,30 +32,44 @@ Set the path and filename for the database file:
 2. Sensor config
 Config file: src/main/resources/sensors.xml
 Copy the sensors.example.xml file and rename it to sensors.xml.  
-Every connected sensor needs to be configured in the sensors.xml file.
-At the moment a basic sensor with two device types are implemented:
+Every connected sensor needs to be configured in the sensors.xml file.  
+Fields:
+    - id: A unique identifier for the sensor
+    - name: A name for the sensor
+    - device: Currently two types are supported:
+        - dummy: A simple "device" for testing, it automatically generates random data
+        - file: Reads sensor data from a file.
+            - path: The absolute path to the file
+            - adapter: Currently only the "temperature" adapter is available. It expects a string in the format "Temperature: 20.1" in the file. The temperature "20.1" is then extracted and saved.
+    - captureInterval: (Optional) Describes the interval in milliseconds for capturing/reading the sensor data. Default is 3 seconds.
+    - dataType: (Optional) Describes the type of the captured data, so that it can be transformed back by the systems consuming the data from a sensor node. As a convention it expects a MIME-Type because it is widely known format for describing a content's type. Default is "text/plain".
 
-        <sensors>
+    Examples:
+    
+            <sensors>
+                
+                // creates a dummy sensor for testing
+                <basic>
+                    <id>101</id>
+                    <name>DummySensor1</name>
+                    <device type="dummy"/>
+                    <captureInterval>20000</captureInterval>
+                    <dataType>text/plain</dataType>
+                </basic>
             
-            // creates a dummy sensor for testing
-            <basic>
-                <id>101</id>
-                <name>DummySensor1</name>
-                <device type="dummy"/>
-            </basic>
-        
-            // creates a sensor where the information is stored in a text file
-            <basic>
-                <id>103</id>
-                <name>Remote temperature sensor</name>
-                <device type="file">
-                    <path>/path/to/temperature.txt</path>
-                    <adapter type="temperature"/>
-                </device>
-                <captureInterval>30000</captureInterval>
-            </basic>
-        
-        </sensors>
+                // creates a sensor where the information is stored in a text file
+                <basic>
+                    <id>103</id>
+                    <name>Remote temperature sensor</name>
+                    <device type="file">
+                        <path>/path/to/temperature.txt</path>
+                        <adapter type="temperature"/>
+                    </device>
+                    <captureInterval>30000</captureInterval>
+                    <dataType>text/plain</dataType>
+                </basic>
+            
+            </sensors>
 		
 Run application
 ---------------

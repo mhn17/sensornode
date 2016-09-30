@@ -23,7 +23,7 @@ public class BasicSensorTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        this.sensor = new BasicSensor(1, "sensor", 10, this.device);
+        this.sensor = new BasicSensor(1, "sensor", 10, "text/plain", this.device);
     }
 
     @After

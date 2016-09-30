@@ -9,8 +9,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import static org.junit.Assert.*;
-
 @RunWith(MockitoJUnitRunner.class)
 public class SensorDtoTest extends TestCase{
 
@@ -26,6 +24,7 @@ public class SensorDtoTest extends TestCase{
         Mockito.when(this.sensor.getId()).thenReturn(1);
         Mockito.when(this.sensor.getCaptureInterval()).thenReturn(1);
         Mockito.when(this.sensor.getName()).thenReturn("sensor1");
+        Mockito.when(this.sensor.getDataType()).thenReturn("text/plain");
 
         this.sensorDto = new SensorDto(this.sensor);
     }
@@ -36,12 +35,17 @@ public class SensorDtoTest extends TestCase{
     }
 
     @Test
+    public void testGetName() throws Exception {
+        assertEquals("sensor1", this.sensorDto.getName());
+    }
+
+    @Test
     public void testGetCaptureInterval() throws Exception {
         assertEquals(1, this.sensorDto.getCaptureInterval());
     }
 
     @Test
-    public void testGetName() throws Exception {
-        assertEquals("sensor1", this.sensorDto.getName());
+    public void testGetDataType() throws Exception {
+        assertEquals("text/plain", this.sensorDto.getDataType());
     }
 }

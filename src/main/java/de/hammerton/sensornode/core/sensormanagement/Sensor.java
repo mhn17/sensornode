@@ -4,7 +4,6 @@ import de.hammerton.sensornode.core.sensordatamanagement.SensorData;
 import de.hammerton.sensornode.core.sensordatamanagement.SensorDataQueue;
 import de.hammerton.sensornode.core.sensormanagement.sensor.device.IDevice;
 
-import java.util.concurrent.BlockingQueue;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -15,8 +14,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public abstract class Sensor implements Runnable {
 
+    public static final int DEFAULT_CAPTURE_INTERVAL = 3000;
+    public static final String DEFAULT_DATA_TYPE = "text/plain";
+
     protected int id, captureInterval;
-    protected String name;
+    protected String name, dataType;
     protected SensorDataQueue sensorDataQueue;
     protected byte[] data = null;
     protected IDevice device = null;
@@ -24,26 +26,32 @@ public abstract class Sensor implements Runnable {
     /**
      * Constructor
      *  - set capture interval to 1 second
+     *  - set the data type to "text/plain"
      *
      * @param id The sensor ID
      * @param name The name of the sensor
+     * @param device The device for the sensor
      */
     public Sensor(int id, String name, IDevice device) {
-        this(id, name, 3000, device);
+        this(id, name, DEFAULT_CAPTURE_INTERVAL, DEFAULT_DATA_TYPE, device);
     }
 
     /**
      * Constructor
      *  - sets the capture interval to a specific value
+     *  - defines the type of the data
      *
      * @param id The sensor ID
      * @param name The name of the sensor
      * @param captureInterval The capture interval
+     * @param dataType The MIME-Type of the data read by the sensor
+     * @param device The device for the sensor
      */
-    public Sensor(int id, String name, int captureInterval, IDevice device) {
+    public Sensor(int id, String name, int captureInterval, String dataType, IDevice device) {
         this.id = id;
         this.name = name;
         this.captureInterval = captureInterval;
+        this.dataType = dataType;
         this.device = device;
         this.sensorDataQueue = SensorDataQueue.getInstance();
     }
@@ -80,6 +88,15 @@ public abstract class Sensor implements Runnable {
      */
     public int getCaptureInterval() {
         return this.captureInterval;
+    }
+
+    /**
+     * Return the data type
+     *
+     * @return The data type
+     */
+    public String getDataType() {
+        return this.dataType;
     }
 
     /**

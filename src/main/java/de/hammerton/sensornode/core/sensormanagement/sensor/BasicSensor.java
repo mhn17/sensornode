@@ -3,8 +3,6 @@ package de.hammerton.sensornode.core.sensormanagement.sensor;
 import de.hammerton.sensornode.core.sensormanagement.Sensor;
 import de.hammerton.sensornode.core.sensormanagement.sensor.device.IBasicDevice;
 
-import java.nio.ByteBuffer;
-
 /**
  * BasicSensor sensor for reading data from file or something similar
  *
@@ -36,8 +34,8 @@ public class BasicSensor extends Sensor {
      * @param captureInterval The capture interval
      * @param device The web cam device
      */
-    public BasicSensor(int id, String name, int captureInterval, IBasicDevice device) {
-        super(id, name, captureInterval, device);
+    public BasicSensor(int id, String name, int captureInterval, String dataType, IBasicDevice device) {
+        super(id, name, captureInterval, dataType, device);
         this.device = device;
     }
 

@@ -1,7 +1,6 @@
 package de.hammerton.sensornode.core.sensormanagement.sensor.device;
 
 import java.nio.ByteBuffer;
-//import java.util.Random;
 
 /**
  * DummyDevice device for testing
@@ -14,11 +13,6 @@ public class DummyDevice implements IBasicDevice {
 
     @Override
     public byte[] readData() {
-        // Random random = new Random();
-        // byte[] randomBytes = new byte[4];
-        // set random data
-        // random.nextBytes(randomBytes);
-        // this.setData(randomBytes);
 
         DATA++;
 

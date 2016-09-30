@@ -19,6 +19,17 @@ public class SensorMock extends Sensor {
         super(id, name, device);
     }
 
+    /**
+     * @param id The sensor id
+     * @param name The name of the sensor
+     * @param captureInterval The capture interval
+     * @param dataType The data type
+     * @param device The device for this sensor
+     */
+    public SensorMock(int id, String name, int captureInterval, String dataType, IDevice device) {
+        super(id, name, captureInterval, dataType, device);
+    }
+
     @Override
     public void startCapturing() {
 

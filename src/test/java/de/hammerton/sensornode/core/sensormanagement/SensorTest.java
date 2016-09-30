@@ -36,6 +36,26 @@ public class SensorTest {
     }
 
     @Test
+    public void testGetCaptureData() throws Exception {
+        assertEquals(Sensor.DEFAULT_CAPTURE_INTERVAL, this.sensor.getCaptureInterval());
+    }
+
+    @Test
+    public void testGetDataType() throws Exception {
+        assertEquals(Sensor.DEFAULT_DATA_TYPE, this.sensor.getDataType());
+    }
+
+    @Test
+    public void testCreateSensorWithCustomData() throws Exception {
+        Sensor sensor = new SensorMock(1, "new sensor", 60000, "application/json", Mockito.mock(IDevice.class));
+
+        assertEquals(1, sensor.getId());
+        assertEquals("new sensor", sensor.getName());
+        assertEquals(60000, sensor.getCaptureInterval());
+        assertEquals("application/json", sensor.getDataType());
+    }
+
+    @Test
     public void testSetAndGetData() throws Exception {
         byte[] data = new byte[] {1, 5, 3};
 
