@@ -4,7 +4,9 @@ import de.hammerton.sensornode.core.sensormanagement.sensor.device.IBasicDevice;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
 import static org.junit.Assert.*;
 
@@ -15,9 +17,13 @@ public class BasicSensorTest {
 
     private BasicSensor sensor = null;
 
+    @Mock
+    private IBasicDevice device = null;
+
     @Before
     public void setUp() throws Exception {
-        this.sensor = new BasicSensor(1, "sensor", 10, Mockito.mock(IBasicDevice.class));
+        MockitoAnnotations.initMocks(this);
+        this.sensor = new BasicSensor(1, "sensor", 10, this.device);
     }
 
     @After
@@ -38,6 +44,16 @@ public class BasicSensorTest {
         Mockito.when(spySensor.isCapturing()).thenReturn(true).thenReturn(false);
         spySensor.startCapturing();
         Mockito.verify(spySensor).setData(Mockito.any(byte[].class));
+    }
+
+    @Test
+    public void testStartCapturingSkipSettingData() throws Exception {
+        BasicSensor spySensor = Mockito.spy(this.sensor);
+
+        Mockito.when(spySensor.isCapturing()).thenReturn(true).thenReturn(false);
+        Mockito.when(this.device.readData()).thenThrow(new NoDataAvailableException(""));
+        spySensor.startCapturing();
+        Mockito.verify(spySensor, Mockito.never()).setData(Mockito.any(byte[].class));
     }
 
     @Test

@@ -1,9 +1,11 @@
 package de.hammerton.sensornode.core.sensormanagement.sensor.device;
 
+import de.hammerton.sensornode.core.sensormanagement.sensor.NoDataAvailableException;
 import de.hammerton.sensornode.core.sensormanagement.sensor.device.adapter.IStringAdapter;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.Scanner;
 
 /**
@@ -13,6 +15,7 @@ public class FileDevice implements IBasicDevice {
     private File file;
     private IStringAdapter adapter;
     private String lineSeparator;
+    private long lastModified = 0;
 
     public FileDevice(String path, IStringAdapter adapter) throws IOException {
         this.file = new File(path);
@@ -20,19 +23,29 @@ public class FileDevice implements IBasicDevice {
             throw new IOException("Cannot access file: " + path);
         }
 
+        // set lastModified to current timestamp to make sure no "old" data is read from the file
+        this.lastModified = new Date().getTime();
+
         this.adapter = adapter;
         this.lineSeparator = System.getProperty("line.separator");
     }
 
     @Override
-    public byte[] readData() {
+    public byte[] readData() throws NoDataAvailableException {
+        // no new data available, don't read data
+        if (this.lastModified >= this.file.lastModified()) {
+            throw new NoDataAvailableException("FileDevice: the file has not been updated since the last read operation");
+        }
+
         String rawData = "";
 
         try {
             rawData = this.readFileContent();
+            this.lastModified = this.file.lastModified();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
 
         return this.adapter.extractData(rawData).getBytes();
     }
@@ -47,7 +60,7 @@ public class FileDevice implements IBasicDevice {
      * Read the complete content from a file
      *
      * @return The raw content of the file
-     * @throws IOException
+     * @throws IOException An IOException can be thrown when the file is trying to be read
      */
     private String readFileContent() throws IOException {
         StringBuilder fileContents = new StringBuilder((int)this.file.length());

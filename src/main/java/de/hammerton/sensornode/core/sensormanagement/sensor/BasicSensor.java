@@ -60,7 +60,12 @@ public class BasicSensor extends Sensor {
         this.capturing = true;
 
         while (this.isCapturing()) {
-            this.setData(this.device.readData());
+            try {
+                byte[] data = this.device.readData();
+                this.setData(data);
+            } catch (NoDataAvailableException e) {
+                System.out.println("No new data available for " + this.name);
+            }
 
             this.waitForNextCapture();
         }
