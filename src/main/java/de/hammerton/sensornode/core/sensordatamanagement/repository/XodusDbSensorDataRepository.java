@@ -17,6 +17,7 @@ import java.util.UUID;
 public class XodusDbSensorDataRepository implements SensorDataRepository {
 
     public static final String SENSOR_DATA_ENTITY_NAME = "SensorData";
+    public static final String SENSOR_DATA_DEFAULT_SORT_FIELD = "timestamp";
 
     private final PersistentEntityStore entityStore;
 
@@ -28,16 +29,6 @@ public class XodusDbSensorDataRepository implements SensorDataRepository {
      */
     public XodusDbSensorDataRepository(PersistentEntityStore entityStore) {
         this.entityStore = entityStore;
-
-        Runtime.getRuntime().addShutdownHook(new Thread()
-        {
-            @Override
-            public void run()
-            {
-                System.out.println("Closing database!");
-                entityStore.close();
-            }
-        });
     }
 
     /**
@@ -57,19 +48,31 @@ public class XodusDbSensorDataRepository implements SensorDataRepository {
     }
 
     /**
-     * Find all sensor data
+     * Find all sensor data limiting to the first 20 records
      *
      * @return The sensor data
      */
     @Override
     public ArrayList<SensorData> find() {
+        return this.find(DEFAULT_OFFSET, DEFAULT_LIMIT);
+    }
+
+    /**
+     * Find all sensor data with offset and limit
+     *
+     * @param offset Where to start listing the records
+     * @param limit How many results should be shown
+     * @return The sensor data
+     */
+    @Override
+    public ArrayList<SensorData> find(int offset, int limit) {
         ArrayList<SensorData> sensorDataList = new ArrayList<>();
 
         entityStore.executeInTransaction(txn -> {
-            final EntityIterable allSensorData = txn.getAll(SENSOR_DATA_ENTITY_NAME);
-            for (Entity sensorData: allSensorData) {
-                sensorDataList.add(this.getSensorDataFromEntity(sensorData));
-            }
+            final EntityIterable allSensorData = txn.sort(SENSOR_DATA_ENTITY_NAME,
+                    SENSOR_DATA_DEFAULT_SORT_FIELD, true);
+
+            this.mapResultSetToList(sensorDataList, allSensorData, offset, limit);
         });
 
         return sensorDataList;
@@ -79,17 +82,18 @@ public class XodusDbSensorDataRepository implements SensorDataRepository {
      * Find sensor data by a sensor ID
      *
      * @param sensorId The sensor ID for which to get the data
+     * @param offset Where to start listing the records
+     * @param limit How many results should be shown
      * @return The sensor data for the sensor ID
      */
     @Override
-    public ArrayList<SensorData> findBySensorId(int sensorId) {
+    public ArrayList<SensorData> findBySensorId(int sensorId, int offset, int limit) {
         ArrayList<SensorData> sensorDataList = new ArrayList<>();
 
         entityStore.executeInTransaction(txn -> {
             final EntityIterable filteredSensorData = txn.find(SENSOR_DATA_ENTITY_NAME, "sensorId", sensorId);
-            for (Entity sensorData: filteredSensorData) {
-                sensorDataList.add(this.getSensorDataFromEntity(sensorData));
-            }
+
+            this.mapResultSetToList(sensorDataList, filteredSensorData, offset, limit);
         });
 
         return sensorDataList;
@@ -110,6 +114,26 @@ public class XodusDbSensorDataRepository implements SensorDataRepository {
                 sensorData.delete();
             }
         });
+    }
+
+    /**
+     * Takes a result set and reduces it to match the offset and limit
+     *
+     * @param entities The results
+     * @param offset Where to start listing the records
+     * @param limit How many results should be shown
+     */
+    private void mapResultSetToList(ArrayList<SensorData> sensorDataList,
+                                    EntityIterable entities, int offset, int limit) {
+        int counter = 1;
+        int offsetEnd = offset + limit;
+        for (Entity sensorData: entities) {
+            if (counter > offset && counter <= offsetEnd) {
+                sensorDataList.add(this.getSensorDataFromEntity(sensorData));
+            }
+
+            counter++;
+        }
     }
 
     /**

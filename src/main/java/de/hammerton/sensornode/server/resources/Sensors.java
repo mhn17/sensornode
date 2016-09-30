@@ -8,10 +8,7 @@ import de.hammerton.sensornode.core.sensormanagement.Sensor;
 import de.hammerton.sensornode.core.sensormanagement.SensorManager;
 import de.hammerton.sensornode.server.dto.SensorDto;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 
@@ -55,7 +52,11 @@ public class Sensors {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id}/sensorData")
-    public ArrayList<SensorData> listSensorDataBySensorId(@PathParam("id") int sensorId) {
+    public ArrayList<SensorData> listSensorDataBySensorId(
+            @PathParam("id") int sensorId,
+            @QueryParam("offset") @DefaultValue("" + SensorDataRepository.DEFAULT_OFFSET) int offset,
+            @QueryParam("limit") @DefaultValue("" + SensorDataRepository.DEFAULT_LIMIT) int limit) {
+
         SensorDataRepository sensorDataRepository;
 
         try {
@@ -65,7 +66,7 @@ public class Sensors {
             return new ArrayList<>();
         }
 
-        return sensorDataRepository.findBySensorId(sensorId);
+        return sensorDataRepository.findBySensorId(sensorId, offset, limit);
     }
 
     /**

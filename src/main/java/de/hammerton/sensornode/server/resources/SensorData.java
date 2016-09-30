@@ -1,6 +1,5 @@
 package de.hammerton.sensornode.server.resources;
 
-
 import de.hammerton.sensornode.core.sensordatamanagement.SensorDataManagementException;
 import de.hammerton.sensornode.core.sensordatamanagement.SensorDataRepository;
 import de.hammerton.sensornode.core.sensordatamanagement.SensorDataRepositoryFactory;
@@ -10,6 +9,11 @@ import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 import java.util.UUID;
 
+/**
+ * Resource for sensor data
+ *
+ * @author Marc Hammerton
+ */
 @Path("/sensorData")
 public class SensorData {
 
@@ -28,8 +32,11 @@ public class SensorData {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public ArrayList<de.hammerton.sensornode.core.sensordatamanagement.SensorData> list() {
-        return this.sensorDataRepository.find();
+    public ArrayList<de.hammerton.sensornode.core.sensordatamanagement.SensorData> list(
+            @QueryParam("offset") @DefaultValue("" + SensorDataRepository.DEFAULT_OFFSET) int offset,
+            @QueryParam("limit") @DefaultValue("" + SensorDataRepository.DEFAULT_LIMIT) int limit) {
+
+        return this.sensorDataRepository.find(offset, limit);
     }
 
     @DELETE

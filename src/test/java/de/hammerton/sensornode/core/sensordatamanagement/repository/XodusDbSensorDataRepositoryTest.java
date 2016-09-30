@@ -58,25 +58,48 @@ public class XodusDbSensorDataRepositoryTest {
     @Test
     public void testFind() throws Exception {
         this.entityStore.executeInTransaction(txn -> {
-            Entity result1 = this.createEntity(txn, UUID.randomUUID(), 5, 1, new byte[4]);
-            Entity result2 = this.createEntity(txn, UUID.randomUUID(), 6, 1, new byte[4]);
+            // create more entities than the default limit value to check the default limit is returned
+            int limit = XodusDbSensorDataRepository.DEFAULT_LIMIT + 2;
+            for(int i=1; i<=limit; i++) {
+                this.createEntity(txn, UUID.randomUUID(), i, 1, new byte[4]);
+            }
         });
 
         ArrayList<SensorData> sensorDataList = this.repository.find();
-        Assert.assertEquals(2, sensorDataList.size());
+
+        Assert.assertEquals(XodusDbSensorDataRepository.DEFAULT_LIMIT, sensorDataList.size());
         Assert.assertSame(SensorData.class, sensorDataList.get(0).getClass());
-        Assert.assertEquals(5, sensorDataList.get(0).getSensorId());
-        Assert.assertEquals(6, sensorDataList.get(1).getSensorId());
+        Assert.assertEquals(1, sensorDataList.get(0).getSensorId());
+        Assert.assertEquals(2, sensorDataList.get(1).getSensorId());
+    }
+
+    @Test
+    public void testFindWithOffsetAndLimit() throws Exception {
+        this.entityStore.executeInTransaction(txn -> {
+            // create more entities than the default limit value to check the default limit is returned
+            int limit = 10;
+            for(int i=1; i<=limit; i++) {
+                this.createEntity(txn, UUID.randomUUID(), i, 1, new byte[4]);
+            }
+        });
+
+        ArrayList<SensorData> sensorDataList = this.repository.find(3, 3);
+
+        Assert.assertEquals(3, sensorDataList.size());
+        Assert.assertSame(SensorData.class, sensorDataList.get(0).getClass());
+        Assert.assertEquals(4, sensorDataList.get(0).getSensorId());
+        Assert.assertEquals(5, sensorDataList.get(1).getSensorId());
+        Assert.assertEquals(6, sensorDataList.get(2).getSensorId());
     }
 
     @Test
     public void testFindBySensorId() throws Exception {
         this.entityStore.executeInTransaction(txn -> {
-            Entity result1 = this.createEntity(txn, UUID.randomUUID(), 5, 1, new byte[4]);
-            Entity result2 = this.createEntity(txn, UUID.randomUUID(), 6, 1, new byte[4]);
+            this.createEntity(txn, UUID.randomUUID(), 5, 1, new byte[4]);
+            this.createEntity(txn, UUID.randomUUID(), 6, 1, new byte[4]);
         });
 
-        ArrayList<SensorData> sensorDataList = this.repository.findBySensorId(5);
+        ArrayList<SensorData> sensorDataList = this.repository.findBySensorId(5, 0, 10);
         Assert.assertEquals(1, sensorDataList.size());
         Assert.assertSame(SensorData.class, sensorDataList.get(0).getClass());
         Assert.assertEquals(5, sensorDataList.get(0).getSensorId());
@@ -87,8 +110,8 @@ public class XodusDbSensorDataRepositoryTest {
         UUID id = UUID.randomUUID();
 
         this.entityStore.executeInTransaction(txn -> {
-            Entity result1 = this.createEntity(txn, id, 5, 1, new byte[4]);
-            Entity result2 = this.createEntity(txn, UUID.randomUUID(), 6, 1, new byte[4]);
+            this.createEntity(txn, id, 5, 1, new byte[4]);
+            this.createEntity(txn, UUID.randomUUID(), 6, 1, new byte[4]);
         });
 
         this.repository.remove(id);

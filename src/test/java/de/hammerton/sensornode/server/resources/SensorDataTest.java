@@ -30,8 +30,8 @@ public class SensorDataTest extends TestCase {
 
     @Test
     public void testList() throws Exception {
-        this.sensorData.list();
-        Mockito.verify(this.sensorDataRepository).find();
+        this.sensorData.list(2, 3);
+        Mockito.verify(this.sensorDataRepository).find(2, 3);
     }
 
     @Test
